@@ -1,7 +1,9 @@
 from easygui import *
+import settings
+
+choices = ["(a) Mettre a jour la carte.","(b) Determiner le plus court chemin securitaire.","(c) Extraire un sous-graphe.","(d) Quitter."]
 
 def makeGUI(graphImage=None):
-	choices = ["(a) Mettre a jour la carte.","(b) Determiner le plus court chemin securitaire.","(c) Extraire un sous-graphe.","(d) Quitter."]
 	reply="Opened program"
 	message = "Action precedente : "
 	title = ""
@@ -12,6 +14,9 @@ def makeGUI(graphImage=None):
 		previous_reply = reply
 		#GUI call
 		reply = buttonbox(message, image=graphImage, choices=choices)
+
+		#set the return_value before any break
+		settings.return_value = reply
 
 		#logic of program after specific replies
 
@@ -26,6 +31,10 @@ def makeGUI(graphImage=None):
 		#reset the message value
 		message = message.replace(previous_reply, "")
 
+
+def askFileName():
+	return enterbox("Enter the name of the file : ")
+	
 
 
 
