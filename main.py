@@ -2,7 +2,6 @@ import settings
 import usersettings
 from C1 import *
 from C5 import *
-import os
 
 #Users must update this part of the code with their own system settings
 usersettings.init()
@@ -25,18 +24,12 @@ makeGUI()
 while 1:
 	if settings.return_value == settings.choices[0]:
 		print("we entered here!...")
-		while settings.never_quit_filename_loop:
-			try:
-				name = askFileName()
-				with open(os.path.expanduser(usersettings.absolute_path_to_working_directory+name), 'r') as file:
-					settings.never_quit_filename_loop = False
-					settings.data=file.readlines()
-
-			except IOError:
-				print("IOError: A non existent filename was entered = " + name)
-
+		while 1:
+			creerGraph()
+			# if x: break
+			break
 		#
-		makeGUI()
+		# makeGUI()
 	else:
 		print("we didn't enter there")
 		msgbox("hello")

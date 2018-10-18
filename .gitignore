@@ -3,3 +3,4 @@ easygui/*
 .DS_Store
 centresLocaux.txt
 *.pyc
+env1/*
