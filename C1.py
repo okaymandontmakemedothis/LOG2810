@@ -1,5 +1,8 @@
 import os
-import pprint
+from pprint import pprint
+from C5 import *
+import usersettings
+import settings
 
 def creerGraph():
 	try:

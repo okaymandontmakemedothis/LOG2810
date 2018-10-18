@@ -13,24 +13,32 @@ settings.init()
 #Display the menu for the first time
 makeGUI()
 
-#test- it works... credits: https://stackoverflow.com/a/41211614
-# import os
-# print (os.getcwd())
-# with open(os.path.expanduser("~/Downloads/session3/LOG2810/centresLocaux.txt"), "r") as f:
-# 	print("yay")
-
-
 #Further iterations
 while 1:
 	if settings.return_value == settings.choices[0]:
 		print("we entered here!...")
 		while 1:
 			creerGraph()
+			settings.return_value = ""
 			# if x: break
 			break
 		#
 		# makeGUI()
 	else:
+		#Should be passing a graphImage
 		print("we didn't enter there")
-		msgbox("hello")
+		makeGUI()
+
+	if settings.return_value == settings.choices[1]:
+		pass
+	else:
+		makeGUI()
+
+	if settings.return_value == settings.choices[2]:
+		pass
+	else:
+		makeGUI()
+
+	if settings.return_value == settings.choices[3]:
+		msgbox("Bye")
 		break

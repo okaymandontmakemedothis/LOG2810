@@ -4,23 +4,25 @@ import settings
 
 
 def makeGUI(graphImage=None):
-	reply="Opened program"
 	message = "Action precedente : "
 	title = ""
 	previous_reply =""
-	while reply!="(d) Quitter.":
+	while settings.reply!="(d) Quitter.":
 		#fonction to update message with previous action at the top
-		message += reply
-		previous_reply = reply
+		message += settings.reply
+		previous_reply = settings.reply
 		#GUI call
-		reply = buttonbox(message, image=graphImage, choices=settings.choices)
+		settings.reply = buttonbox(message, image=graphImage, choices=settings.choices)
 
 		#set the return_value before any break
-		settings.return_value = reply
+		settings.return_value = settings.reply
+
+		#reset the message value
+		message = message.replace(previous_reply, "")
 
 		#logic of program after specific replies
 
-		if reply == "(a) Mettre a jour la carte." :
+		if settings.reply == "(a) Mettre a jour la carte." :
 			#break so that in the main we can call makeGUI again from the graphImage newly produced graph
 			break
 
@@ -28,8 +30,6 @@ def makeGUI(graphImage=None):
 		# if reply == "(b) Determiner le plus court chemin securitaire.":
 
 
-		#reset the message value
-		message = message.replace(previous_reply, "")
 
 #VERY HARD CODED... I don't at which point does it have to not be hard coded
 def askFileName():
