@@ -1,7 +1,7 @@
 from easygui import *
 import settings
 
-choices = ["(a) Mettre a jour la carte.","(b) Determiner le plus court chemin securitaire.","(c) Extraire un sous-graphe.","(d) Quitter."]
+
 
 def makeGUI(graphImage=None):
 	reply="Opened program"
@@ -13,7 +13,7 @@ def makeGUI(graphImage=None):
 		message += reply
 		previous_reply = reply
 		#GUI call
-		reply = buttonbox(message, image=graphImage, choices=choices)
+		reply = buttonbox(message, image=graphImage, choices=settings.choices)
 
 		#set the return_value before any break
 		settings.return_value = reply
@@ -35,16 +35,14 @@ def makeGUI(graphImage=None):
 def askFileName():
 	reply=enterbox("Enter the name of the file : ")
 	while 1:
-		if(reply==None)
+		if reply=="" or reply == None:
 			reply=enterbox("Enter the name of the file : ")
 		else:
 			stripped_reply = reply.strip()
-			if stripped_reply =="centresLocaux.txt":
+			if stripped_reply ==reply+".txt":
+				print(".txt is not needed")
 				return stripped_reply
-			else if stripped_reply == "centresLocaux":
+			elif stripped_reply == reply:
+				print(".txt has been added")
 				return stripped_reply+".txt"
-			else:
-				return ""
-
-
 # enterbox
