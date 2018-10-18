@@ -9,3 +9,5 @@ def init():
 	choices = ["(a) Mettre a jour la carte.","(b) Determiner le plus court chemin securitaire.","(c) Extraire un sous-graphe.","(d) Quitter."]
 	global reply
 	reply="Opened program"
+	global bye_art
+	bye_art = "images/ambulance2.gif"

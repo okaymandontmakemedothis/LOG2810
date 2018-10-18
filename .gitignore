@@ -4,3 +4,4 @@ easygui/*
 centresLocaux.txt
 *.pyc
 env1/*
+images/*

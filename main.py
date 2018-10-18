@@ -2,6 +2,7 @@ import settings
 import usersettings
 from C1 import *
 from C5 import *
+import os
 
 #Users must update this part of the code with their own system settings
 usersettings.init()
@@ -13,10 +14,12 @@ settings.init()
 #Display the menu for the first time
 makeGUI()
 
+print(type(os.path.expanduser(usersettings.absolute_path_to_working_directory+settings.bye_art)))
+print(os.path.expanduser(usersettings.absolute_path_to_working_directory+settings.bye_art))
+
 #Further iterations
 while 1:
 	if settings.return_value == settings.choices[0]:
-		print("we entered here!...")
 		while 1:
 			creerGraph()
 			settings.return_value = ""
@@ -26,7 +29,6 @@ while 1:
 		# makeGUI()
 	else:
 		#Should be passing a graphImage
-		print("we didn't enter there")
 		makeGUI()
 
 	if settings.return_value == settings.choices[1]:
@@ -40,5 +42,5 @@ while 1:
 		makeGUI()
 
 	if settings.return_value == settings.choices[3]:
-		msgbox("Bye")
+		msgbox("", image=os.path.expanduser(usersettings.absolute_path_to_working_directory+settings.bye_art))
 		break
