@@ -31,11 +31,20 @@ def makeGUI(graphImage=None):
 		#reset the message value
 		message = message.replace(previous_reply, "")
 
-
+#VERY HARD CODED... I don't at which point does it have to not be hard coded
 def askFileName():
-	return enterbox("Enter the name of the file : ")
-	
-
+	reply=enterbox("Enter the name of the file : ")
+	while 1:
+		if(reply==None)
+			reply=enterbox("Enter the name of the file : ")
+		else:
+			stripped_reply = reply.strip()
+			if stripped_reply =="centresLocaux.txt":
+				return stripped_reply
+			else if stripped_reply == "centresLocaux":
+				return stripped_reply+".txt"
+			else:
+				return ""
 
 
 # enterbox

@@ -17,6 +17,8 @@ while 1:
 		print("we entered here!...")
 		with open(askFileName(), 'r') as file:
 			data=file.readlines()
+		#
+		makeGUI()
 	else:
 		print("we didn't enter there")
 		msgbox("hello")
