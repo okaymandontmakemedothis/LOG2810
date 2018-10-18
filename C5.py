@@ -30,8 +30,6 @@ def makeGUI(graphImage=None):
 		# if reply == "(b) Determiner le plus court chemin securitaire.":
 
 
-
-#VERY HARD CODED... I don't at which point does it have to not be hard coded
 def askFileName():
 	reply=enterbox("Enter the name of the file : ")
 	while 1:

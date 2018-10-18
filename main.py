@@ -14,9 +14,6 @@ settings.init()
 #Display the menu for the first time
 makeGUI()
 
-print(type(os.path.expanduser(usersettings.absolute_path_to_working_directory+settings.bye_art)))
-print(os.path.expanduser(usersettings.absolute_path_to_working_directory+settings.bye_art))
-
 #Further iterations
 while 1:
 	if settings.return_value == settings.choices[0]:
