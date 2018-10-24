@@ -12,14 +12,16 @@ with open('centresLocaux.txt') as f:
 			firstSection = False #firstSection: first half of the .txt with info to create Nodes
 		else:
 			info = x.split(',')
-			info = [int(i) for i in info]
+			info = [int(i) for i in info] # info = [ x1, x2, x3, ...]
 
 			if firstSection: #create all the nodes with the available info from the .txt and add them to the graph (no edges yet)
 				node = Node(info[0], info[1])
 				g.addNode(node)
 			else: #create the edges
-				#Edge(node1, node2, cost)
-				edge = Edge(g.getNodes()[info[0]], g.getNodes()[info[1]], info[2])
+				node1 = g.getNodes()[info[0]]
+				node2 = g.getNodes()[info[1]]
+				cost = inf[2]
+				edge = Edge(node1, node2, cost) #Edge(node1, node2, cost)
 
 
 g.printGraph()
