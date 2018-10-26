@@ -23,10 +23,11 @@ class Node:
 		self.edges.append(e)
 
 
-	# Simple print of every edge's cost linked to the current node
+	# Simple print of the number of edges connected
 	def printEdges(self):
-		for x in self.edges:
-			print(x.getCost())
+		#for x in self.edges:
+			#print(x.getCost())
+		print(len(self.edges))
 		
 
 # Represent an edge linking 2 nodes
