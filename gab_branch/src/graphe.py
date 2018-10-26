@@ -6,7 +6,7 @@
 #	edges: list of the edges connected to the current node
 class Node:
 	def __init__(self, id, recharge):
-		self.id = id
+		self.id = int(id)
 		self.recharge = recharge
 		self.edges = []
 
@@ -20,7 +20,14 @@ class Node:
 		return self.edges
 
 	def addEdge(self, e):
-		self.edges.append(e)
+		isPresent = False
+		for x in self.edges:
+			if e == x:
+				isPresent = True
+				break
+		
+		if not(isPresent):
+			self.edges.append(e)
 
 
 	# Simple print of the number of edges connected
@@ -44,6 +51,13 @@ class Edge:
 		node1.addEdge(self)
 		node2.addEdge(self)
 
+	def __eq__(self, another_edge):
+		if ((self.node1.getId() == another_edge.getNode1().getId()) or (self.node1.getId() == another_edge.getNode2().getId())
+		and ((self.node2.getId() == another_edge.getNode1().getId()) or (self.node2.getId() == another_edge.getNode2().getId()))):
+			return self.getCost() == another_edge.getCost()
+		else:
+			return False
+
 	def getCost(self):
 		return self.cost
 
@@ -65,7 +79,9 @@ class Graphe(object):
 		return self.nodes
 
 	def addNode(self, node):
-		self.nodes[node.getId()] = node
+		# Verify that the node Id is not already in the dict
+		if not(node.getId() in self.nodes) :
+			self.nodes[node.getId()] = node
 
 	# Simple print of every nodes id's and their edges cost
 	def printGraph(self):
