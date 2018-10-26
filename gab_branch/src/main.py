@@ -1,4 +1,5 @@
 from graphe import *
+from algo import *
 import sys
 
 # Version iterative
