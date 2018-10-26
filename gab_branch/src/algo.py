@@ -12,4 +12,9 @@ class dijkstraNode:
 		self.node = node
 		self.distance = distance
 		self.visited = visited
-		
+
+
+# the logic of the algorithm
+# param
+def dijkstraAlgo(graph, start, end):
+	pass
