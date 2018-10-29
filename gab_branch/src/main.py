@@ -19,6 +19,8 @@ def creerGraphe(nomFichier):
 				if firstSection: #create all the nodes with the available info from the .txt and add them to the graph (no edges yet)
 					node = Node(info[0], info[1])
 					g.addNode(node)
+					if info[1] == 1:
+						g.addRechargeStation(node)
 				else: #create the edges
 					node1 = g.getNodes()[info[0]]
 					node2 = g.getNodes()[info[1]]
@@ -26,6 +28,7 @@ def creerGraphe(nomFichier):
 					edge = Edge(node1, node2, cost) #Edge(node1, node2, cost)
 	return g
 
-myGraph = creerGraphe(sys.argv[1])
+#myGraph = creerGraphe(sys.argv[1])
+myGraph = creerGraphe("centresLocaux.txt")
 
 myGraph.printGraph()

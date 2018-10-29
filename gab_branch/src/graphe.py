@@ -25,7 +25,7 @@ class Node:
 			if e == x:
 				isPresent = True
 				break
-		
+
 		if not(isPresent):
 			self.edges.append(e)
 
@@ -35,14 +35,14 @@ class Node:
 		#for x in self.edges:
 			#print(x.getCost())
 		print(len(self.edges))
-		
+
 
 # Represent an edge linking 2 nodes
 # param:
 #	node1, node2: nodes linked togheter
 #	cost: cost associated to the edge
 class Edge:
-	
+
 	# When built, an edge adds itself to the 2 nodes it links togheter
 	def __init__(self, node1, node2, cost):
 		self.node1 = node1
@@ -74,6 +74,7 @@ class Edge:
 class Graphe(object):
 	def __init__(self):
 		self.nodes = {}
+		self.rechargeStations = {}
 
 	def getNodes(self):
 		return self.nodes
@@ -83,10 +84,13 @@ class Graphe(object):
 		if not(node.getId() in self.nodes) :
 			self.nodes[node.getId()] = node
 
+	def addRechargeStation(self, node):
+		if not(node.getId() in self.rechargeStations) :
+			self.rechargeStations[node.getId()] = node
+
 	# Simple print of every nodes id's and their edges cost
 	def printGraph(self):
-		for x in self.nodes:
+		for x in self.rechargeStations:
 			print("Noeud: ", x)
-			self.nodes[x].printEdges()
-
-
+			#self.nodes[x].printEdges()
+			print(str(x) + "\n")
