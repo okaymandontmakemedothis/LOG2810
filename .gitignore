@@ -5,3 +5,5 @@ centresLocaux.txt
 *.pyc
 env1/*
 images/*
+*.*/
+**/*.ipynb

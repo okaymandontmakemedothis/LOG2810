@@ -1,7 +1,7 @@
 import settings
 import usersettings
-from C1 import *
-from C5 import *
+from creerGraphe import *
+from gui import *
 import os
 
 #Users must update this part of the code with their own system settings
@@ -18,7 +18,7 @@ makeGUI()
 while 1:
 	if settings.return_value == settings.choices[0]:
 		while 1:
-			creerGraph()
+			lireGraphe();
 			settings.return_value = ""
 			# if x: break
 			break
