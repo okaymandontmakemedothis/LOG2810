@@ -52,9 +52,12 @@ class Edge:
 		node2.addEdge(self)
 
 	def __eq__(self, another_edge):
-		if ((self.node1.getId() == another_edge.getNode1().getId()) or (self.node1.getId() == another_edge.getNode2().getId())
-		and ((self.node2.getId() == another_edge.getNode1().getId()) or (self.node2.getId() == another_edge.getNode2().getId()))):
-			return self.getCost() == another_edge.getCost()
+		if self.node1.getId() == another_edge.getNode1().getId():
+			if self.node2.getId() == another_edge.getNode2().getId():
+				return True
+		if self.node1.getId() == another_edge.getNode2().getId():
+			if self.node2.getId() == another_edge.getNode1().getId():
+				return True
 		else:
 			return False
 
