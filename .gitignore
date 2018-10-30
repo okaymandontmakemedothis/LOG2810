@@ -7,3 +7,4 @@ env1/*
 # images/*
 *.*/
 **/*.ipynb
+usersettings.py
