@@ -24,16 +24,16 @@ def makeGUI(graphImage=None):
 
 		if settings.reply == settings.choices[0] :
 			#break so that in the main we can call makeGUI again from the graphImage newly produced graph
-			await 
+			# await 
 			break
 		elif settings.reply == settings.choices[1] :
-			await
+			# await
 			break
-		elif settings.reply == settings.choice[2] :
-			await
+		elif settings.reply == settings.choices[2] :
+			# await
 			break
-		elif settings.reply == settings.choice[3] :
-			await 
+		elif settings.reply == settings.choices[3] :
+			# await 
 			break
 
 		# if reply == "(b) Determiner le plus court chemin securitaire.":

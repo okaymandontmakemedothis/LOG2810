@@ -12,25 +12,9 @@ def lireGraphe():
 	except IOError as e:
 		print(type(e.args[0]))
 		if type(e.args[0]) is list:
-			# errorMsg = ""
-			# for i in e.args[0]:
-				# errorMsg+=i
 			msgbox("IOError - An unexpected filename was entered: {0}".format(e))
 		else:
 			msgbox("{0}".format(e))
-		
-		# if type(e.args[0])==type(int):
-			# errorMsg = "IOError - An unexpected filename was entered: {0}".format(e)
-			# print(errorMsg)
-			# msgbox()
-		# else:
-			# print(e.args[0])
-			
-		# if type(e.args[0])!=type(int):
-
-		# else:
-		# 	msgbox("IOError - The filename cannot be found: ",e.args[1][0])
-
 	
 def creerGraphe(nomFichier):
 	g = Graphe()
@@ -55,7 +39,7 @@ def creerGraphe(nomFichier):
 					node2 = g.getNodes()[info[1]]
 					cost = info[2]
 					edge = Edge(node1, node2, cost) #Edge(node1, node2, cost)
-	return g#do we need to return?
+	return g
 
 def askFileName():
 	reply=enterbox("Enter the name of the file : ")
