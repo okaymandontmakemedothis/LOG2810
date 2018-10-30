@@ -32,3 +32,5 @@ def creerGraphe(nomFichier):
 myGraph = creerGraphe("centresLocaux.txt")
 
 myGraph.printGraph()
+
+dijkstraMin(myGraph, myGraph.getNode(1), myGraph.getNode(2)).printEdges()

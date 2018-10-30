@@ -14,7 +14,55 @@ class dijkstraNode:
 		self.visited = visited
 
 
-# the logic of the algorithm
+# find the shortest path
 # param
-def dijkstraAlgo(graph, start, end):
-	pass
+def plusCourtChemin(graph, start, end, patientCategory):
+
+	graph.initialize()
+
+
+
+
+
+def dijkstraMin(graph, start, end):
+
+	start.setDistance(0)
+
+	toBeVisited = {}
+	for x in graph.getNodes():
+		toBeVisited[x] = graph.getNode(x)
+
+	currentNode = start
+
+	shortestDistance = None
+	while toBeVisited:
+		temp = findClosestNeighbour(currentNode)
+		if temp is not None:
+			currentNode = temp
+			del toBeVisited[currentNode.getId()]
+
+	return currentNode
+
+
+def findClosestNeighbour(node):
+
+	closestNeighbour = None
+
+	for x in node.getEdges():
+		neighbour = None
+		if x.getNode1() == node:
+			neighbour = x.getNode2()
+		else:
+			neighbour = x.getNode1()
+
+		if not neighbour.getVisited():
+			neighbour.setDistance(node.getDistance() + x.getCost())
+
+			if closestNeighbour == None:
+				closestNeighbour = neighbour
+			elif closestNeighbour.getDistance() > neighbour.getDistance():
+				closestNeighbour = neighbour
+
+			closestNeighbour.setVisited(True)
+			closestNeighbour.setPrevious(node)
+	return closestNeighbour

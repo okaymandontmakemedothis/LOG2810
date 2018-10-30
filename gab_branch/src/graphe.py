@@ -9,6 +9,9 @@ class Node:
 		self.id = int(id)
 		self.recharge = recharge
 		self.edges = []
+		self.distance = -1
+		self.visited = False
+		self.previous = None
 
 	def getId(self):
 		return self.id
@@ -18,6 +21,24 @@ class Node:
 
 	def getEdges(self):
 		return self.edges
+
+	def getDistance(self):
+		return self.distance
+
+	def setDistance(self, newDistance):
+		self.distance = newDistance
+
+	def getVisited(self):
+		return self.visited
+
+	def setVisited(self, arg):
+		self.visited = arg
+
+	def getPrevious(self):
+		return self.previous
+
+	def setPrevious(self, prev):
+		self.previous = prev
 
 	def addEdge(self, e):
 		isPresent = False
@@ -30,6 +51,7 @@ class Node:
 			self.edges.append(e)
 
 
+	#
 	# Simple print of the number of edges connected
 	def printEdges(self):
 		#for x in self.edges:
@@ -79,6 +101,9 @@ class Graphe(object):
 	def getNodes(self):
 		return self.nodes
 
+	def getNode(self, id):
+		return self.nodes[id]
+
 	def addNode(self, node):
 		# Verify that the node Id is not already in the dict
 		if not(node.getId() in self.nodes) :
@@ -87,6 +112,16 @@ class Graphe(object):
 	def addRechargeStation(self, node):
 		if not(node.getId() in self.rechargeStations) :
 			self.rechargeStations[node.getId()] = node
+
+	def initialize(self):
+		rechargeStations = {}
+		for x in self.nodes:
+			x.setVisited(False)
+			x.setDistance(-1)
+			x.setPrevious(None)
+			if x.getRecharge() == 1:
+				rechargeStations[x.getId()] = x
+
 
 	# Simple print of every nodes id's and their edges cost
 	def printGraph(self):
