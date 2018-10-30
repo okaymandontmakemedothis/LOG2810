@@ -1,9 +1,9 @@
 __pycache__/*
 # easygui/*
 .DS_Store
-centresLocaux.txt
+# centresLocaux.txt
 *.pyc
 env1/*
-images/*
+# images/*
 *.*/
 **/*.ipynb
