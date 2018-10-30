@@ -15,7 +15,7 @@ def makeGUI(graphImage=None):
 		settings.reply = buttonbox(message, title=title, image=graphImage, choices=settings.choices)
 
 		#set the return_value before any break
-		settings.return_value = settings.reply
+		# settings.return_value = settings.reply
 
 		#reset the message value
 		message = message.replace(previous_reply, "")

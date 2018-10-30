@@ -1,6 +1,6 @@
 def init():
-	global return_value
-	return_value = ""
+	# global return_value
+	# return_value = ""
 	global data
 	data = None
 	global never_quit_filename_loop
