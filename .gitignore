@@ -1,5 +1,5 @@
 __pycache__/*
-easygui/*
+# easygui/*
 .DS_Store
 centresLocaux.txt
 *.pyc
