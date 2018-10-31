@@ -26,7 +26,7 @@ def dijkstraAlgo(graph, start, end, isMin):
 
 	# add all nodes from graph to the list of nodes to be visited
 	for x in graph.getNodes():
-		graph.getNode(x).setPrevious(graph.getNode(x))
+		# graph.getNode(x).setPrevious(graph.getNode(x))
 		toBeVisited[x] = graph.getNode(x)
 
 	while len(toBeVisited) > 0:
@@ -43,8 +43,8 @@ def dijkstraAlgo(graph, start, end, isMin):
 
 		del toBeVisited[u.getId()]
 
-		if u.getDistance() == float("inf"):
-			break
+		# if u.getDistance() == float("inf"):
+		# 	break
 
 		setNeighboursDistance(u, isMin)
 
