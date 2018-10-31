@@ -33,4 +33,5 @@ myGraph = creerGraphe("centresLocaux.txt")
 
 myGraph.printGraph()
 
-dijkstraMin(myGraph, myGraph.getNode(1), myGraph.getNode(2)).printEdges()
+# print shortest path distance from start to end
+print(dijkstraMin(myGraph, myGraph.getNode(22), myGraph.getNode(26)).getDistance())
