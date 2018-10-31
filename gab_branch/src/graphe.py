@@ -9,7 +9,7 @@ class Node:
 		self.id = int(id)
 		self.recharge = recharge
 		self.edges = []
-		self.distance = -1
+		self.distance = float("inf")
 		self.visited = False
 		self.previous = None
 
@@ -117,7 +117,7 @@ class Graphe(object):
 		rechargeStations = {}
 		for x in self.nodes:
 			x.setVisited(False)
-			x.setDistance(-1)
+			x.setDistance(float("inf"))
 			x.setPrevious(None)
 			if x.getRecharge() == 1:
 				rechargeStations[x.getId()] = x
@@ -125,7 +125,6 @@ class Graphe(object):
 
 	# Simple print of every nodes id's and their edges cost
 	def printGraph(self):
-		for x in self.rechargeStations:
+		for x in self.nodes:
 			print("Noeud: ", x)
-			#self.nodes[x].printEdges()
-			print(str(x) + "\n")
+			self.nodes[x].printEdges()
