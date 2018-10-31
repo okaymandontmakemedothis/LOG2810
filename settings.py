@@ -1,6 +1,6 @@
 def init():
-	global return_value
-	return_value = ""
+	# global return_value
+	# return_value = ""
 	global data
 	data = None
 	global never_quit_filename_loop
@@ -11,7 +11,8 @@ def init():
 	reply="Opened program"
 	global bye_art
 	bye_art = "images/ambulance2.gif"
-	global 
+	global program_name
+	program_name = "Le Meilleur Programme du Monde"
 #THIS IS THE OUTPUT OF pprint(settings.data)
  # ['1,0\r\n',
  # '2,0\r\n',

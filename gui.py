@@ -5,42 +5,36 @@ import settings
 
 def makeGUI(graphImage=None):
 	message = "Action precedente : "
-	title = ""
+	title = settings.program_name
 	previous_reply =""
 	while settings.reply!="(d) Quitter.":
 		#fonction to update message with previous action at the top
 		message += settings.reply
 		previous_reply = settings.reply
 		#GUI call
-		settings.reply = buttonbox(message, image=graphImage, choices=settings.choices)
+		settings.reply = buttonbox(message, title=title, image=graphImage, choices=settings.choices)
 
 		#set the return_value before any break
-		settings.return_value = settings.reply
+		# settings.return_value = settings.reply
 
 		#reset the message value
 		message = message.replace(previous_reply, "")
 
 		#logic of program after specific replies
 
-		if settings.reply == "(a) Mettre a jour la carte." :
+		if settings.reply == settings.choices[0] :
 			#break so that in the main we can call makeGUI again from the graphImage newly produced graph
+			# await 
 			break
-
+		elif settings.reply == settings.choices[1] :
+			# await
+			break
+		elif settings.reply == settings.choices[2] :
+			# await
+			break
+		elif settings.reply == settings.choices[3] :
+			# await 
+			break
 
 		# if reply == "(b) Determiner le plus court chemin securitaire.":
 
-
-def askFileName():
-	reply=enterbox("Enter the name of the file : ")
-	while 1:
-		if reply=="" or reply == None:
-			reply=enterbox("Enter the name of the file : ")
-		else:
-			stripped_reply = reply.strip()
-			if stripped_reply ==reply+".txt":
-				print(".txt is not needed")
-				return stripped_reply
-			elif stripped_reply == reply:
-				print(".txt has been added")
-				return stripped_reply+".txt"
-# enterbox

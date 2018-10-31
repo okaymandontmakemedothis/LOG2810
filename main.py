@@ -1,7 +1,7 @@
 import settings
 import usersettings
-from C1 import *
-from C5 import *
+from creerGraphe import *
+from gui import *
 import os
 
 #Users must update this part of the code with their own system settings
@@ -11,33 +11,25 @@ settings.init()
 
 #First iteration
 
+#Get some variables out here
+g = None
+
 #Display the menu for the first time
 makeGUI()
 
 #Further iterations
 while 1:
-	if settings.return_value == settings.choices[0]:
-		while 1:
-			creerGraph()
-			settings.return_value = ""
-			# if x: break
-			break
-		#
-		# makeGUI()
-	else:
-		#Should be passing a graphImage
-		makeGUI()
-
-	if settings.return_value == settings.choices[1]:
-		pass
-	else:
-		makeGUI()
-
-	if settings.return_value == settings.choices[2]:
-		pass
-	else:
-		makeGUI()
-
-	if settings.return_value == settings.choices[3]:
+	#Check first if the exit button has been pressed on
+	if settings.reply == settings.choices[3]:
 		msgbox("", image=os.path.expanduser(usersettings.absolute_path_to_working_directory+settings.bye_art))
 		break
+	#Then check the rest of the options
+	if settings.reply == settings.choices[0]:
+		g = lireGraphe()
+	elif settings.reply == settings.choices[1]:
+		pass
+	elif settings.reply == settings.choices[2]:
+		pass
+	makeGUI()
+
+
