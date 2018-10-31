@@ -31,7 +31,12 @@ def creerGraphe(nomFichier):
 #myGraph = creerGraphe(sys.argv[1])
 myGraph = creerGraphe("centresLocaux.txt")
 
-myGraph.printGraph()
+#myGraph.printGraph()
 
 # print shortest path distance from start to end
-print(dijkstraMin(myGraph, myGraph.getNode(22), myGraph.getNode(26)).getDistance())
+isSmallestPath = True	# change to false to have longest path
+start_index = 27
+end_index = 22
+start = myGraph.getNode(start_index)
+end = myGraph.getNode(end_index)
+print(dijkstraAlgo(myGraph, start, end, isSmallestPath).getDistance())

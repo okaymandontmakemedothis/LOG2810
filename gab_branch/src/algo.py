@@ -13,14 +13,14 @@ def plusCourtChemin(graph, start, end, patientCategory):
 # param:
 #	graph: graph to be used
 #	start, end: nodes from graph
-def dijkstraMin(graph, start, end):
+def dijkstraAlgo(graph, start, end, isMin):
 
 	if start.getId() == end.getId():
 		print("noeuds de départ et d'arrivé sont les mêmes")
 		return start
 
 	start.setDistance(0)
-	start.setVisited(True)
+	# start.setVisited(True)
 
 	toBeVisited = {}
 
@@ -31,7 +31,14 @@ def dijkstraMin(graph, start, end):
 
 	while len(toBeVisited) > 0:
 
+		# u = None
+		# if isMin:
+		# 	u = minimum_distance(toBeVisited)
+		# else:
+		# 	u = maximum_distance(toBeVisited)
+
 		u = minimum_distance(toBeVisited)
+
 		print("Noeud courant: ", u.getId(), " Distance: ", u.getDistance())
 
 		del toBeVisited[u.getId()]
@@ -39,7 +46,7 @@ def dijkstraMin(graph, start, end):
 		if u.getDistance() == float("inf"):
 			break
 
-		setNeighboursDistance(u)
+		setNeighboursDistance(u, isMin)
 
 	return end
 
@@ -54,20 +61,42 @@ def minimum_distance(nodes):
 
 	return minimum
 
+# Looks for the node with the largest distance from all the unvisited nodes
+# param:
+#	nodes: unvisited nodes left
+def maximum_distance(nodes):
+	maximum = None
+	for node in nodes:
+		if (maximum == None):
+			maximum = nodes[node]
+		elif nodes[node].getDistance() > maximum.getDistance():
+			if nodes[node].getDistance() != float("inf"):
+				maximum = nodes[node]
+
+	return maximum
+
 # Set the distance for the unvisited neighbours
 # param:
 #	node: node from which we check the neighbours
-def setNeighboursDistance(node):
+def setNeighboursDistance(node, isMin):
 	for x in node.getEdges():
 		# v: neighbour of node
 		v = None
+		# an edged is composed of 2 nodes with no particular order
+		# so we need to make sure we are not using the node passed in parameters
+		# as its own neighbour
 		if x.getNode1().getId() == node.getId():
 			v = x.getNode2()
 		else:
 			v = x.getNode1()
 		# update v's shortest path
-		if v.getVisited() == False:
-			dist = node.getDistance() + x.getCost()
-			if (dist < v.getDistance()) or (v.getDistance() < 0):
+		# if v.getVisited() == False:
+		dist = node.getDistance() + x.getCost()
+		if isMin:
+			if (dist < v.getDistance()):
+				v.setDistance(dist)
+				v.setPrevious(node)
+		else:
+			if (dist > v.getDistance()) or (v.getDistance() == float("inf")):
 				v.setDistance(dist)
 				v.setPrevious(node)
