@@ -48,3 +48,7 @@ plusCourtChemin(myGraph, start, end, typePatient)
 
 # for x in myGraph.getRechargeStations():
 # 	print("Point de recharge: ", x, " Distance du debut: ", myGraph.getRechargeStations()[x].getDistance())
+
+print(dijkstraAlgo(myGraph, start, end, isSmallestPath).getDistance())
+GrapheImpression = lireGraphe(myGraph.getNodes())
+print(f"{GrapheImpression}")

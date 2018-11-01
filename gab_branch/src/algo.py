@@ -119,3 +119,24 @@ def setNeighboursDistance(node, isMin):
 			if (dist > v.getDistance()) or (v.getDistance() == float("inf")):
 				v.setDistance(dist)
 				v.setPrevious(node)
+
+def lireGraphe(Nodes):
+	GrapheString = "("
+	for node in Nodes:
+		GrapheString += "Noeud"+ str(node) #objet1
+		GrapheString += ","
+		GrapheString += str(Nodes[node].getId()) #numero1
+		GrapheString += ", ("
+		for edge in Nodes[node].getEdges():
+			v = None
+			if edge.getNode1().getId() == Nodes[node].getId():
+				#Nodes[node].getNode2() = neighbour
+				v = edge.getNode2()
+			else:
+				v = edge.getNode1()
+				#Nodes[node].getNode2() = neighbour
+			GrapheString += "(ObjetVoisin" + str(v.getId()) + ", " #str(Nodes[node].getEdges[neighbour])
+			GrapheString += str(edge.getCost())
+			GrapheString += "), "
+		GrapheString += "\n\n"
+	return GrapheString
