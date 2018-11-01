@@ -6,7 +6,7 @@ import os
 
 
 class Gui:
-	def __init__(self, title, g):
+	def __init__(self, title):
 		self.title = title
 		self.menu_message = settings.default_menu_msg
 		self.layout = None
@@ -17,7 +17,7 @@ class Gui:
 
 		#Temp values
 		self.output_token = None
-		self.g=g
+		self.g=None
 		self.output_block = None
 
 

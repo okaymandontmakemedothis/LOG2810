@@ -13,7 +13,7 @@ settings.init()
 
 #Get some variables out here
 g = None
-gui=Gui(settings.program_name,g)
+gui=Gui(settings.program_name)
 
 #Display the menu for the first time
 
