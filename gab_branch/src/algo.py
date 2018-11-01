@@ -1,5 +1,6 @@
 from graphe import *
 
+separateur = "============================================================="
 
 class AmbulanceNINH:
 	def __init__(self, typePatient):

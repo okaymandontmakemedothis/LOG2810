@@ -3,6 +3,7 @@ import settings
 import usersettings
 from PySimpleGUI import PySimpleGUI as sg
 import os
+from algo import *
 
 
 class Gui:
@@ -24,7 +25,6 @@ class Gui:
 
 	def updateG(self, g):
 		self.g = g
-
 
 	def setOutputBlock(self, output_block):
 		self.output_block = output_block
@@ -60,7 +60,8 @@ class Gui:
 			self.output_block=None
 			#Due to the shitty Nature of this GUI I need to print the STDOUTs immediately after creating this menu.
 			if self.output_token==0:
-				self.g.printGraphe()
+				GrapheImpression = lireGraphe(self.g.getNodes())
+				print(f"{GrapheImpression}")
 				self.window.Refresh()
 
 
