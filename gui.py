@@ -11,7 +11,6 @@ class Gui:
 		self.menu_message = settings.default_menu_msg
 		self.layout = None
 		self.window = None
-		self.setLayoutMenu(self.menu_message)
 		# self.return_value = None
 		self.exit_status = False
 		settings.previous_reply = settings.reply
@@ -36,19 +35,6 @@ class Gui:
 	def setLayoutMenuDefault(self):
 		self.layout = settings.default_layout_menu
 
-	def setLayoutMenu(self, message, a=None):
-		self.layout = 	[
-							[sg.Text(message, size=(40,1))],
-							[sg.Button(button_text=settings.choices[0], auto_size_button=True, pad=(1,1)), 
-							sg.Button(button_text=settings.choices[1], auto_size_button=True, pad=(1,1)), 
-							sg.Button(button_text=settings.choices[2], auto_size_button=True, pad=(1,1)), 
-							sg.Button(button_text=settings.choices[3], auto_size_button=True, pad=(1,1))]
-
-						]
-
-	def setLayoutMap(self, message, ):
-		pass
-
 	def updateLayoutMenu(self, output_block):
 		self.layout = 	[
 							[sg.Text(self.menu_message, size=(40,1))],
@@ -60,13 +46,6 @@ class Gui:
 
 						]
 
-	# def getReturn(self):
-	# 	return self.return_value
-
-	# def setTitle(self, title):
-	# 	if self.window is sg.Window: 
-	# 		self.title = title
-	# 		window.Refresh()#update window
 	def makeGUI(self):
 		while all(settings.reply != choice for choice in settings.choices) :
 			#fonction to update message with previous action at the top
@@ -154,20 +133,6 @@ class Gui:
 					return stripped_reply[0]+".txt"
 				else: 
 					raise IOError(stripped_reply)
-		# while 1:
-		# 	if reply=="" or reply == None:
-		# 		reply=enterbox("Enter the name of the file : ")
-		# 	else:
-		# 		stripped_reply = reply.replace(" ","").split('.')
-		# 		if len(stripped_reply)==2:
-		# 			if(stripped_reply[1]=='txt'):
-		# 				print(".txt is not needed")
-		# 				return stripped_reply[0]+'.'+stripped_reply[1]
-		# 		elif len(stripped_reply)==1:
-		# 			print(".txt has been added")
-		# 			return stripped_reply[0]+".txt"
-		# 		else: 
-		# 			raise IOError(stripped_reply)
 
 	def makeErrorGUI(self, title="Error!", message="An error has occured."):
 		error_window = sg.Window(title).Layout([
