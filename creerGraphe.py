@@ -13,8 +13,10 @@ def lireGraphe():
 		print(type(e.args[0]))
 		if type(e.args[0]) is list:
 			msgbox("IOError - An unexpected filename was entered: {0}".format(e))
+			return None
 		else:
 			msgbox("{0}".format(e))
+			return None
 	
 def creerGraphe(nomFichier):
 	g = Graphe()

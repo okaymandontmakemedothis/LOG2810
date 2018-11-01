@@ -1,3 +1,4 @@
+from pprint import pprint
 
 # Represent a node in the graph
 # param:
@@ -92,8 +93,16 @@ class Graphe(object):
 			self.rechargeStations[node.getId()] = node
 
 	# Simple print of every nodes id's and their edges cost
-	def printGraph(self):
+	def printNodeCardinality(self):
 		for x in self.rechargeStations:
 			print("Noeud: ", x)
 			#self.nodes[x].printEdges()
 			print(str(x) + "\n")
+
+	def printGraphe(self):
+		tempString = ""
+		for i in self.nodes:
+			tempString+="("+i+", "+i+")"
+			pprint(i)
+			pprint(type(i))
+

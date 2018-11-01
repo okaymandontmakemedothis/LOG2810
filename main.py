@@ -3,6 +3,7 @@ import usersettings
 from creerGraphe import *
 from gui import *
 import os
+from PySimpleGUI import PySimpleGUI as sg
 
 #Users must update this part of the code with their own system settings
 usersettings.init()
@@ -26,6 +27,8 @@ while 1:
 	#Then check the rest of the options
 	if settings.reply == settings.choices[0]:
 		g = lireGraphe()
+		if g is not None:
+			g.printGraphe()
 	elif settings.reply == settings.choices[1]:
 		pass
 	elif settings.reply == settings.choices[2]:
