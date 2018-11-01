@@ -13,7 +13,7 @@ settings.init()
 
 #Get some variables out here
 g = None
-gui=Gui(settings.program_name)
+gui=Gui(settings.program_name,g)
 
 #Display the menu for the first time
 
@@ -21,26 +21,21 @@ gui=Gui(settings.program_name)
 while 1:
 	try:
 		gui.makeGUI()
+
 		#Then check the rest of the options
 		if settings.reply == settings.choices[0]:	
 			g = creerGraphe(gui.askFileNameGUI())
 			if g is not None:
 				#print to gui
-				layout = 	[	
-								#size of the main menu that we have to tatonner coz of this framework..
-								[sg.Output(size=(87,20))]
-							]
-				new_window = sg.Window("Test graphe output").Layout(layout).Finalize()
-				g.printGraphe()
-				new_window.Refresh()
-				while(True):
-					event, value = new_window.Read()
-					if event is None:
-						break
+				gui.updateG(g)
+				layout = [sg.Output(size=(87,20))]
+				gui.setOutputToken(settings.output_token_values[0])
+				gui.setOutputBlock(layout)
 		elif settings.reply == settings.choices[1]:
 			pass
 		elif settings.reply == settings.choices[2]:
 			pass
+		#Afficher ce qui a ete compute
 		gui.makeReplyGUI(g)
 		if gui.exit_status is True: 
 			break

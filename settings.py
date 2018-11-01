@@ -32,6 +32,8 @@ def init():
 								sg.Button(button_text=choices[2], auto_size_button=True, pad=(1,1)), 
 								sg.Button(button_text=choices[3], auto_size_button=True, pad=(1,1))]
 							]
+	global output_token_values
+	output_token_values = [0,1,2]
 
 
 
