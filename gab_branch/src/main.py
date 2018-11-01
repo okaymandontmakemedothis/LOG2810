@@ -40,3 +40,5 @@ end_index = 22
 start = myGraph.getNode(start_index)
 end = myGraph.getNode(end_index)
 print(dijkstraAlgo(myGraph, start, end, isSmallestPath).getDistance())
+GrapheImpression = lireGraphe(myGraph.getNodes())
+print(f"{GrapheImpression}")
