@@ -1,10 +1,50 @@
 from graphe import *
 
 
+class AmbulanceNINH:
+	def __init__(self, typePatient):
+		self.typePatient = typePatient
+
+	def calculateConsumption(self, minutes):
+		consomption = 0
+		if self.typePatient == 1:
+			consomption = (minutes/60) * 6
+		elif self.typePatient == 2:
+			consomption = (minutes/60) * 12
+		else:
+			consomption = (minutes/60) * 48
+
+		return consomption
+
+class AmbulanceLIion:
+	def __init__(self, typePatient):
+		self.typePatient = typePatient
+
+	def calculateConsumption(self, minutes):
+		consomption = 0
+		if self.typePatient == 1:
+			consomption = (minutes/60) * 5
+		elif self.typePatient == 2:
+			consomption = (minutes/60) * 10
+		else:
+			consomption = (minutes/60) * 30
+
+		return consomption
+
+
+
 # find the shortest path
-def plusCourtChemin(graph, start, end, patientCategory):
+def plusCourtChemin(graph, start, end, typePatient):
 
 	graph.initialize()
+
+	dijkstraAlgo(graph, start, end, True)
+
+	ambulanceNINH = AmbulanceNINH(typePatient)
+	if ambulanceNINH.calculateConsumption(end.getDistance()) < 80:
+		print("Ya assez de jus, t safe")
+	else:
+		print("u ded")
 
 
 
@@ -20,7 +60,6 @@ def dijkstraAlgo(graph, start, end, isMin):
 		return start
 
 	start.setDistance(0)
-	# start.setVisited(True)
 
 	toBeVisited = {}
 
@@ -30,12 +69,6 @@ def dijkstraAlgo(graph, start, end, isMin):
 		toBeVisited[x] = graph.getNode(x)
 
 	while len(toBeVisited) > 0:
-
-		# u = None
-		# if isMin:
-		# 	u = minimum_distance(toBeVisited)
-		# else:
-		# 	u = maximum_distance(toBeVisited)
 
 		u = minimum_distance(toBeVisited)
 
@@ -61,19 +94,6 @@ def minimum_distance(nodes):
 
 	return minimum
 
-# Looks for the node with the largest distance from all the unvisited nodes
-# param:
-#	nodes: unvisited nodes left
-def maximum_distance(nodes):
-	maximum = None
-	for node in nodes:
-		if (maximum == None):
-			maximum = nodes[node]
-		elif nodes[node].getDistance() > maximum.getDistance():
-			if nodes[node].getDistance() != float("inf"):
-				maximum = nodes[node]
-
-	return maximum
 
 # Set the distance for the unvisited neighbours
 # param:
@@ -90,7 +110,6 @@ def setNeighboursDistance(node, isMin):
 		else:
 			v = x.getNode1()
 		# update v's shortest path
-		# if v.getVisited() == False:
 		dist = node.getDistance() + x.getCost()
 		if isMin:
 			if (dist < v.getDistance()):
