@@ -83,6 +83,9 @@ class Gui:
 			if self.output_token==0:
 				self.g.printGraphe()
 				self.window.Refresh()
+
+
+			#Read values therefore this is like a while until it reads something nothing will execute before this is done
 			settings.reply, value = self.window.Read()
 			print(settings.reply)
 

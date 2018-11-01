@@ -28,9 +28,8 @@ while 1:
 			if g is not None:
 				#print to gui
 				gui.updateG(g)
-				layout = [sg.Output(size=(87,20))]
 				gui.setOutputToken(settings.output_token_values[0])
-				gui.setOutputBlock(layout)
+				gui.setOutputBlock(settings.layout_stdout_output)
 		elif settings.reply == settings.choices[1]:
 			pass
 		elif settings.reply == settings.choices[2]:
