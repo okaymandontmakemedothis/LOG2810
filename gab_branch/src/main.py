@@ -2,6 +2,8 @@ from graphe import *
 from algo import *
 import sys
 
+separateur = "============================================================="
+
 # Version iterative
 def creerGraphe(nomFichier):
 	g = Graphe()
@@ -30,8 +32,9 @@ def creerGraphe(nomFichier):
 
 #myGraph = creerGraphe(sys.argv[1])
 myGraph = creerGraphe("centresLocaux.txt")
-
-#myGraph.printGraph()
+print(separateur)
+myGraph.printGraph()
+print(separateur)
 
 # print shortest path distance from start to end
 isSmallestPath = True	# change to false to have longest path
@@ -40,15 +43,16 @@ end_index = 22
 start = myGraph.getNode(start_index)
 end = myGraph.getNode(end_index)
 
-typePatient = 3 # faible: 1, moyen: 2, haut: 3
-
+typePatient = 2 # faible: 1, moyen: 2, haut: 3
+print(separateur)
 plusCourtChemin(myGraph, start, end, typePatient)
-
+print(separateur)
 # print(dijkstraAlgo(myGraph, start, end, isSmallestPath).getDistance())
 
 # for x in myGraph.getRechargeStations():
 # 	print("Point de recharge: ", x, " Distance du debut: ", myGraph.getRechargeStations()[x].getDistance())
-
-print(dijkstraAlgo(myGraph, start, end, isSmallestPath).getDistance())
+#print(dijkstraAlgo(myGraph, start, end, isSmallestPath).getDistance())
 GrapheImpression = lireGraphe(myGraph.getNodes())
+print(separateur)
 print(f"{GrapheImpression}")
+print(separateur)
