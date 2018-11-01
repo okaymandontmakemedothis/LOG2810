@@ -1,10 +1,53 @@
 from graphe import *
 
 
+class AmbulanceNINH:
+	def __init__(self, typePatient):
+		self.typePatient = typePatient
+
+	def calculateConsumption(self, minutes):
+		consomption = 0
+		if self.typePatient == 1:
+			consomption = (minutes/60) * 6
+		elif self.typePatient == 2:
+			consomption = (minutes/60) * 12
+		else:
+			consomption = (minutes/60) * 48
+
+		return consomption
+
+class AmbulanceLIion:
+	def __init__(self, typePatient):
+		self.typePatient = typePatient
+
+	def calculateConsumption(self, minutes):
+		consomption = 0
+		if self.typePatient == 1:
+			consomption = (minutes/60) * 5
+		elif self.typePatient == 2:
+			consomption = (minutes/60) * 10
+		else:
+			consomption = (minutes/60) * 30
+
+		return consomption
+
+
+
 # find the shortest path
-def plusCourtChemin(graph, start, end, patientCategory):
+def plusCourtChemin(graph, start, end, typePatient):
 
 	graph.initialize()
+
+	dijkstraAlgo(graph, start, end, True)
+
+	ambulanceNINH = AmbulanceNINH(typePatient)
+	print("Le sort du patient est: ")
+	if ambulanceNINH.calculateConsumption(end.getDistance()) < 80:
+		print("Ya assez de jus, t safe")
+	else:
+		print("u ded")
+
+	print(separateur)
 
 
 
@@ -14,13 +57,12 @@ def plusCourtChemin(graph, start, end, patientCategory):
 #	graph: graph to be used
 #	start, end: nodes from graph
 def dijkstraAlgo(graph, start, end, isMin):
-
+	print(separateur)
 	if start.getId() == end.getId():
 		print("noeuds de départ et d'arrivé sont les mêmes")
 		return start
 
 	start.setDistance(0)
-	# start.setVisited(True)
 
 	toBeVisited = {}
 
@@ -30,12 +72,6 @@ def dijkstraAlgo(graph, start, end, isMin):
 		toBeVisited[x] = graph.getNode(x)
 
 	while len(toBeVisited) > 0:
-
-		# u = None
-		# if isMin:
-		# 	u = minimum_distance(toBeVisited)
-		# else:
-		# 	u = maximum_distance(toBeVisited)
 
 		u = minimum_distance(toBeVisited)
 
@@ -61,19 +97,6 @@ def minimum_distance(nodes):
 
 	return minimum
 
-# Looks for the node with the largest distance from all the unvisited nodes
-# param:
-#	nodes: unvisited nodes left
-def maximum_distance(nodes):
-	maximum = None
-	for node in nodes:
-		if (maximum == None):
-			maximum = nodes[node]
-		elif nodes[node].getDistance() > maximum.getDistance():
-			if nodes[node].getDistance() != float("inf"):
-				maximum = nodes[node]
-
-	return maximum
 
 # Set the distance for the unvisited neighbours
 # param:
@@ -90,7 +113,6 @@ def setNeighboursDistance(node, isMin):
 		else:
 			v = x.getNode1()
 		# update v's shortest path
-		# if v.getVisited() == False:
 		dist = node.getDistance() + x.getCost()
 		if isMin:
 			if (dist < v.getDistance()):
@@ -100,3 +122,24 @@ def setNeighboursDistance(node, isMin):
 			if (dist > v.getDistance()) or (v.getDistance() == float("inf")):
 				v.setDistance(dist)
 				v.setPrevious(node)
+
+def lireGraphe(Nodes):
+	GrapheString = "("
+	for node in Nodes:
+		GrapheString += "Noeud"+ str(node) #objet1
+		GrapheString += ","
+		GrapheString += str(Nodes[node].getId()) #numero1
+		GrapheString += ", ("
+		for edge in Nodes[node].getEdges():
+			v = None
+			if edge.getNode1().getId() == Nodes[node].getId():
+				#Nodes[node].getNode2() = neighbour
+				v = edge.getNode2()
+			else:
+				v = edge.getNode1()
+				#Nodes[node].getNode2() = neighbour
+			GrapheString += "(ObjetVoisin" + str(v.getId()) + ", " #str(Nodes[node].getEdges[neighbour])
+			GrapheString += str(edge.getCost())
+			GrapheString += "), "
+		GrapheString += "\n\n"
+	return GrapheString

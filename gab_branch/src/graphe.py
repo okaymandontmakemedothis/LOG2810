@@ -104,6 +104,9 @@ class Graphe(object):
 	def getNode(self, id):
 		return self.nodes[id]
 
+	def getRechargeStations(self):
+		return self.rechargeStations
+
 	def addNode(self, node):
 		# Verify that the node Id is not already in the dict
 		if not(node.getId() in self.nodes) :
@@ -114,13 +117,12 @@ class Graphe(object):
 			self.rechargeStations[node.getId()] = node
 
 	def initialize(self):
-		rechargeStations = {}
 		for x in self.nodes:
-			x.setVisited(False)
-			x.setDistance(float("inf"))
-			x.setPrevious(None)
-			if x.getRecharge() == 1:
-				rechargeStations[x.getId()] = x
+			self.nodes[x].setVisited(False)
+			self.nodes[x].setDistance(float("inf"))
+			self.nodes[x].setPrevious(None)
+			if self.nodes[x].getRecharge() == 1:
+				self.rechargeStations[self.nodes[x].getId()] = self.nodes[x]
 
 
 	# Simple print of every nodes id's and their edges cost
