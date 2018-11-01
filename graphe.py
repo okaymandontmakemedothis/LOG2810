@@ -100,9 +100,7 @@ class Graphe(object):
 			print(str(x) + "\n")
 
 	def printGraphe(self):
-		tempString = ""
-		for i in self.nodes:
-			tempString+="("+i+", "+i+")"
-			pprint(i)
-			pprint(type(i))
+		for x in self.nodes:
+			print("Noeud: ", x)
+			self.nodes[x].printEdges()
 

@@ -16,6 +16,8 @@ def init():
 	choices = ["(a) Mettre a jour la carte.","(b) Determiner le plus court chemin securitaire.","(c) Extraire un sous-graphe.","(d) Quitter."]
 	global reply
 	reply="Opened program"
+	global previous_reply
+	previous_reply = ""
 	global bye_art_path
 	bye_art_path = os.path.expanduser(usersettings.absolute_path_to_working_directory+"images/ambulance2.gif")
 	global program_name
