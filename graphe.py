@@ -32,10 +32,16 @@ class Node:
 
 
 	# Simple print of the number of edges connected
-	def stringifyEdges(self):
+
+	def printEdges(self):
 		#for x in self.edges:
 			#print(x.getCost())
-		return len(self.edges)
+		print(len(self.edges))
+
+	# def stringifyEdges(self):
+	# 	#for x in self.edges:
+	# 		#print(x.getCost())
+	# 	return len(self.edges)
 
 
 # Represent an edge linking 2 nodes
@@ -99,9 +105,14 @@ class Graphe(object):
 			#self.nodes[x].printEdges()
 			print(str(x) + "\n")
 
-	def stringifyGraphe(self):
-		tempString = ""
+	# def stringifyGraphe(self):
+	# 	tempString = ""
+	# 	for x in self.nodes:
+	# 		tempString+="Noeud: {0}: {1} \n".format(x,self.nodes[x].stringifyEdges())
+	# 	return tempString
+
+	def printGraphe(self):
 		for x in self.nodes:
-			tempString+="Noeud: {0}: {1} \n".format(x,self.nodes[x].stringifyEdges())
-		return tempString
+			print("Noeud: ", x)
+			self.nodes[x].printEdges()
 

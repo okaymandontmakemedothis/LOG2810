@@ -25,8 +25,18 @@ while 1:
 		if settings.reply == settings.choices[0]:	
 			g = creerGraphe(gui.askFileNameGUI())
 			if g is not None:
-				print(g.stringifyGraphe())
 				#print to gui
+				layout = 	[	
+								#size of the main menu that we have to tatonner coz of this framework..
+								[sg.Output(size=(87,20))]
+							]
+				new_window = sg.Window("Test graphe output").Layout(layout).Finalize()
+				g.printGraphe()
+				new_window.Refresh()
+				while(True):
+					event, value = new_window.Read()
+					if event is None:
+						break
 		elif settings.reply == settings.choices[1]:
 			pass
 		elif settings.reply == settings.choices[2]:
