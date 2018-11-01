@@ -1,6 +1,5 @@
 from graphe import *
 
-separateur = "============================================================="
 
 class AmbulanceNINH:
 	def __init__(self, typePatient):
@@ -42,12 +41,13 @@ def plusCourtChemin(graph, start, end, typePatient):
 	dijkstraAlgo(graph, start, end, True)
 
 	ambulanceNINH = AmbulanceNINH(typePatient)
-	print(separateur)
 	print("Le sort du patient est: ")
 	if ambulanceNINH.calculateConsumption(end.getDistance()) < 80:
 		print("Ya assez de jus, t safe")
 	else:
 		print("u ded")
+
+	print(separateur)
 
 
 
@@ -57,7 +57,7 @@ def plusCourtChemin(graph, start, end, typePatient):
 #	graph: graph to be used
 #	start, end: nodes from graph
 def dijkstraAlgo(graph, start, end, isMin):
-
+	print(separateur)
 	if start.getId() == end.getId():
 		print("noeuds de départ et d'arrivé sont les mêmes")
 		return start
