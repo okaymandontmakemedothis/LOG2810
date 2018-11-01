@@ -22,13 +22,11 @@ while 1:
 	try:
 		gui.makeGUI()
 		#Then check the rest of the options
-		if settings.reply == settings.choices[0]:
-		
-				print("yay")
-				g = creerGraphe(gui.askFileNameGUI())
-				if g is not None:
-					g.printGraphe()
-
+		if settings.reply == settings.choices[0]:	
+			g = creerGraphe(gui.askFileNameGUI())
+			if g is not None:
+				print(g.stringifyGraphe())
+				#print to gui
 		elif settings.reply == settings.choices[1]:
 			pass
 		elif settings.reply == settings.choices[2]:
