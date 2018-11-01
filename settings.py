@@ -1,3 +1,10 @@
+from PySimpleGUI import PySimpleGUI as sg
+import usersettings
+import os
+
+
+#DEFAULT VALUES
+
 def init():
 	# global return_value
 	# return_value = ""
@@ -9,10 +16,23 @@ def init():
 	choices = ["(a) Mettre a jour la carte.","(b) Determiner le plus court chemin securitaire.","(c) Extraire un sous-graphe.","(d) Quitter."]
 	global reply
 	reply="Opened program"
-	global bye_art
-	bye_art = "images/ambulance2.gif"
+	global bye_art_path
+	bye_art_path = os.path.expanduser(usersettings.absolute_path_to_working_directory+"images/ambulance2.gif")
 	global program_name
 	program_name = "Le Meilleur Programme du Monde"
+	global default_menu_msg
+	default_menu_msg = "Action precedente : "
+	global default_layout_menu
+	default_layout_menu = 	[
+								[sg.Text(default_menu_msg, size=(40,1))],
+								[sg.Button(button_text=choices[0], auto_size_button=True, pad=(1,1)), 
+								sg.Button(button_text=choices[1], auto_size_button=True, pad=(1,1)), 
+								sg.Button(button_text=choices[2], auto_size_button=True, pad=(1,1)), 
+								sg.Button(button_text=choices[3], auto_size_button=True, pad=(1,1))]
+							]
+
+
+
 #THIS IS THE OUTPUT OF pprint(settings.data)
  # ['1,0\r\n',
  # '2,0\r\n',
