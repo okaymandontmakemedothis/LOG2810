@@ -1,4 +1,4 @@
-__pycache__/*
+**/__pycache__/*
 # easygui/*
 .DS_Store
 # centresLocaux.txt
@@ -7,6 +7,5 @@ env1/*
 # images/*
 *.*/
 **/*.ipynb
-usersettings.py
 test.py
 check_keystrokes.py
