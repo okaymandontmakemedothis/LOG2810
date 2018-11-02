@@ -55,13 +55,8 @@ def plusCourtChemin(graph, payload, ambulance=None):
 		print("Ya assez de jus, t safe")
 		return printString
 	else:
-<<<<<<< HEAD
-		print("u ded")
-		# findBestRecharge(graph, payload, ambulance)
-=======
 		print("u ded, but we look for recharge")
 		findBestRecharge(graph, payload, ambulance)
->>>>>>> c596a410bf28f3056e0458991ba10f2b687dfa7a
 
 #param:
 #	graph: graph object needed to retrieve recharge stations dict
