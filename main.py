@@ -39,7 +39,9 @@ while 1:
 		elif settings.reply == settings.choices[1]:
 			#Function that asks for choice from gui
 			if g is not None :
-				plusCourtChemin(g, gui.askPatientType())
+				gui.setOutputToken(settings.output_token_values[1])
+				gui.setOutputBlock(settings.layout_stdout_output)
+				# plusCourtChemin(g, gui.askPatientType())
 			else:
 				gui.makeErrorGUI(message="Please first load a map")
 		elif settings.reply == settings.choices[2]:

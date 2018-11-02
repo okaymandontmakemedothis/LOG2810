@@ -64,8 +64,8 @@ class Gui:
 				print(f"{GrapheImpression}")
 				self.window.Refresh()
 			if self.output_token == 1:
-				plusCourtChemin(self.g, self.payload)
-
+				plusCourtChemin(self.g, self.askPatientType())
+				self.window.Refresh()
 			#Read values therefore this is like a while until it reads something nothing will execute before this is done
 			settings.reply, value = self.window.Read()
 
@@ -140,7 +140,6 @@ class Gui:
 						[sg.Submit()]
 					]
 		window = sg.Window(self.title).Layout(layout).Finalize()
-		print("yay")
 
 		while(True):
 			event, value = window.Read()
