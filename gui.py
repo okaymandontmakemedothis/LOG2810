@@ -66,6 +66,10 @@ class Gui:
 			if self.output_token == 1:
 				plusCourtChemin(self.g, self.askC3())
 				self.window.Refresh()
+			if self.output_token == 2:
+				payload = self.askC4()
+				from pprint import pprint 
+				pprint(payload)
 			#Read values therefore this is like a while until it reads something nothing will execute before this is done
 			settings.reply, value = self.window.Read()
 
@@ -83,17 +87,16 @@ class Gui:
 			settings.previous_reply = settings.reply
 
 	def makeReplyGUI(self, g):
-		self.window.Finalize()
-		self.window.Close()
-		if settings.reply == settings.choices[0] :
-			pass
-		elif settings.reply == settings.choices[1] :
+		# if settings.reply == settings.choices[0] :
+		# 	pass
+		# elif settings.reply == settings.choices[1] :
 
-			pass
-		elif settings.reply == settings.choices[2] :
+		# 	pass
+		# elif settings.reply == settings.choices[2] :
 			
-			pass
-		elif settings.reply == settings.choices[3] :
+		# 	pass
+		# elif settings.reply == settings.choices[3] :
+		if settings.reply == settings.choices[3] :
 			#this is the extent of this GUI framework. no resizing stuff. welp. and gotta hardcode to pixels for windows/images boxes and character length for text/buttons boxes
 			layout_bye=	[
 				[sg.Text("Bye!",size=(132,1),justification='center', pad=(1,1))],

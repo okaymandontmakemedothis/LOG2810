@@ -45,7 +45,11 @@ while 1:
 			else:
 				gui.makeErrorGUI(message="Please first load a map")
 		elif settings.reply == settings.choices[2]:
-			pass
+			if g is not None :
+				gui.setOutputToken(settings.output_token_values[2])
+				gui.setOutputBlock(settings.layout_stdout_output)
+			else:
+				gui.makeErrorGUI(message="Please first load a map")
 		#Afficher ce qui a ete compute
 		gui.makeReplyGUI(g)
 		if gui.exit_status is True: 
