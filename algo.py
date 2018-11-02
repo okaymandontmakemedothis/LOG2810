@@ -46,6 +46,7 @@ def plusCourtChemin(graph, payload, ambulance=None):
 
 	dijkstraAlgo(graph, payload.getStartIndex(), payload.getEndIndex(), True)
 
+	#initial state 
 	if ambulance is None:
 		ambulance = AmbulanceNINH(payload.getTypePatient())
 	print("Le sort du patient est: ")
@@ -53,16 +54,15 @@ def plusCourtChemin(graph, payload, ambulance=None):
 		print("Ya assez de jus, t safe")
 	else:
 		print("u ded")
-		totalDistance = [0] * len(graph.getRechargeStations())+1
-		findBestRecharge(graph, payload, ambulance, totalDistance)
+		findBestRecharge(graph, payload, ambulance)
 
 
 
 #param:
 #	graph: graph object needed to retrieve recharge stations dict
 #	 
-def findBestRecharge(graph, payload):
-def findBestRecharge(graph, start, end, ambulance, totalDistance):
+def findBestRecharge(graph, payload, ambulance):
+	totalDistance = [0] * len(graph.getRechargeStations())+1
 	recharge = graph.getRechargeStations()
 	nodes = graph.getNodes()
 	for i in recharge:
@@ -90,7 +90,7 @@ def findBestRecharge(graph, start, end, ambulance, totalDistance):
 				if ambulance is AmbulanceLIion:
 					ambulance = AmbulanceNINH(ambulance.getPatient())
 			print("u ded")
-			plusCourtChemin(graph, payload) #pass in the other type of ambulance have a check right before
+			plusCourtChemin(graph, payload, ambulance) #pass in the other type of ambulance have a check right before
 
 # Find the shortest path with the Dijkstra algo
 # param:
