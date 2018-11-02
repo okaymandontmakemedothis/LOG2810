@@ -54,7 +54,7 @@ def plusCourtChemin(graph, payload, ambulance=None):
 		print("Ya assez de jus, t safe")
 	else:
 		print("u ded")
-		findBestRecharge(graph, payload, ambulance)
+		# findBestRecharge(graph, payload, ambulance)
 
 
 

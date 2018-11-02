@@ -31,7 +31,7 @@ def creerGraphe(nomFichier):
 	return g
 
 #myGraph = creerGraphe(sys.argv[1])
-myGraph = creerGraphe("centresLocaux.txt")
+myGraph = creerGraphe("test.txt")
 # print(separateur)
 # myGraph.printGraph()
 # print(separateur)
@@ -39,7 +39,7 @@ myGraph = creerGraphe("centresLocaux.txt")
 # print shortest path distance from start to end
 isSmallestPath = True	# change to false to have longest path
 start_index = 1
-end_index = 25
+end_index = 3
 start = myGraph.getNode(start_index)
 end = myGraph.getNode(end_index)
 

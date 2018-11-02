@@ -38,6 +38,8 @@ class Path:
 		self.end = end
 		self.orderedPath = []
 		self.orderPath()
+		self.tempsTotal = end.getDistance()
+
 
 	def getStart(self):
 		return self.start
@@ -48,6 +50,12 @@ class Path:
 	def getOrderedPath(self):
 		return self.orderedPath
 
+	def getTempsTotal(self):
+		return self.tempsTotal
+
+	def setTempsTotal(self, t):
+		self.tempsTotal = t
+
 	def orderPath(self):
 		currentNode = self.getEnd()
 		while currentNode:
@@ -56,11 +64,16 @@ class Path:
 
 		self.orderedPath.reverse()
 
+	def combinePaths(self, p2):
+		p2.getOrderedPath().pop(0)
+		for x in p2.getOrderedPath():
+			self.orderedPath.append(x)
+
 	def printPath(self):
 		print("Chemin: ")
 		for x in self.orderedPath:
 			print("\tNoeud: ", x.getId())
-		print("\tTemps requis: ", self.end.getDistance())
+		print("\tTemps requis: ", self.tempsTotal)
 
 
 
@@ -82,19 +95,23 @@ def plusCourtChemin(graph, start, end, typePatient):
 		p.printPath()
 	else:
 		# verifier avec rechargeStations
-		path = findShortestPathWithRecharge(ambulanceNINH)
+		path = findShortestPathWithRecharge(graph, start, end, ambulanceNINH)
 		if path is not None:
-			pass
+			print("Ambulance: NI-NH")
+			print("Niveau de batterie final: ", 100 - ambulanceNINH.calculateConsumption(end.getDistance()), "%\n")
+			path.printPath()
 		elif ambulanceLIion.calculateConsumption(end.getDistance()) < 80:
 			print("Ambulance: LI-ion")
 			print("Niveau de batterie final: ", 100 - ambulanceLIion.calculateConsumption(end.getDistance()), "%\n")
 			p.printPath()
 		else:
-			path = findShortestPathWithRecharge(ambulanceLIion)
+			path = findShortestPathWithRecharge(graph, start, end, ambulanceLIion)
 			if path is not None:
-				pass
+				print("Ambulance: LI-ion")
+				print("Niveau de batterie final: ", 100 - ambulanceLIion.calculateConsumption(end.getDistance()), "%\n")
+				path.printPath()
 			else:
-				print("u ded")
+				print("Nous sommes dans l'impossibilité de fournir des services au patient, car le transport n'a pas la batterie nécessaire.")
 
 def extraireSousGraphe(graph, start):
 	print("EXTRAIRE SOUS-GRAPHE")
@@ -116,7 +133,6 @@ def extraireSousGraphe(graph, start):
 	lePlusLoin = None
 	for x in graph.getNodes():
 		if (lePlusLoin == None) or (graph.getNodes()[x].getDistance() > lePlusLoin.getDistance()):
-			# TODO: ajouter calculs de consommation de batterie
 			c = ambulanceLIion.calculateConsumption(graph.getNodes()[x].getDistance())
 
 			if c < 80:
@@ -134,9 +150,35 @@ def extraireSousGraphe(graph, start):
 
 
 
-def findShortestPathWithRecharge(ambulance):
+def findShortestPathWithRecharge(graph, start, end, ambulance):
 
-	return None
+	station = None
+	path1 = None
+	path2 = None
+	time_total = float("inf")
+
+
+	for r in graph.getRechargeStations():
+		graph.initialize()
+		dijkstraAlgo(graph, start, graph.getNode(r), True)
+		if ambulance.calculateConsumption(graph.getNode(r).getDistance()) < 80:
+			time_temp = graph.getNode(r).getDistance()
+			path1 = Path(start, graph.getNode(r))
+			graph.initialize()
+			dijkstraAlgo(graph, graph.getNode(r), end, True)
+			if ambulance.calculateConsumption(end.getDistance()) < 80:
+				time_temp += end.getDistance()
+				if time_temp < time_total:
+					time_total = time_temp
+					path2 = Path(graph.getNode(r), end)
+					station = graph.getNode(r)
+
+	if station == None:
+		return None
+	else:
+		path1.combinePaths(path2)
+		path1.setTempsTotal(time_total + 120)
+		return path1
 
 
 
@@ -172,7 +214,7 @@ def dijkstraAlgo(graph, start, end, isMin):
 
 		setNeighboursDistance(u, isMin)
 
-	return end
+	#return end
 
 # Looks for the node with the smallest distance from all the unvisited nodes
 # param:
