@@ -5,6 +5,9 @@ class AmbulanceNINH:
 	def __init__(self, typePatient):
 		self.typePatient = typePatient
 
+	def getPatient(self):
+		return self.typePatient
+
 	def calculateConsumption(self, minutes):
 		consomption = 0
 		if self.typePatient == 1:
@@ -20,6 +23,9 @@ class AmbulanceLIion:
 	def __init__(self, typePatient):
 		self.typePatient = typePatient
 
+	def getPatient(self):
+		return self.typePatient
+
 	def calculateConsumption(self, minutes):
 		consomption = 0
 		if self.typePatient == 1:
@@ -34,26 +40,28 @@ class AmbulanceLIion:
 
 
 # find the shortest path
-def plusCourtChemin(graph, payload):
+def plusCourtChemin(graph, payload, ambulance=None):
 
 	graph.initialize()
 
 	dijkstraAlgo(graph, payload.getStartIndex(), payload.getEndIndex(), True)
 
-	ambulanceNINH = AmbulanceNINH(payload.getTypePatient())
+	if ambulance is None:
+		ambulance = AmbulanceNINH(payload.getTypePatient())
 	print("Le sort du patient est: ")
-	if ambulanceNINH.calculateConsumption(payload.end_index.getDistance()) < 80:
+	if ambulance.calculateConsumption(payload.end_index.getDistance()) < 80:
 		print("Ya assez de jus, t safe")
 	else:
 		print("u ded")
 		totalDistance = [0] * len(graph.getRechargeStations())+1
-		findBestRecharge(graph, payload.getStartIndex(), payload.getEndIndex(), ambulanceNINH, totalDistance)
+		findBestRecharge(graph, payload, ambulance, totalDistance)
 
 
 
 #param:
 #	graph: graph object needed to retrieve recharge stations dict
 #	 
+def findBestRecharge(graph, payload):
 def findBestRecharge(graph, start, end, ambulance, totalDistance):
 	recharge = graph.getRechargeStations()
 	nodes = graph.getNodes()
@@ -68,15 +76,21 @@ def findBestRecharge(graph, start, end, ambulance, totalDistance):
 
 		#updating graph with cost from c to end, will need to refresh later to og values?
 		graph.initialize()
-		dijkstraAlgo(graph, c, end, True)
+		dijkstraAlgo(graph, c, payload.getEndIndex(), True)
 		totalDistance[i]+=end.getDistance()
 
 		#calculate if it's good enough
 		if ambulance.calculateConsumption(totalDistance[i] < 80 :
 			print("Ya assez de jus, t safe")
 		else:
+			if ambulance is AmbulanceNINH:
+				#wish i knew how to cast one type of object to another one
+				ambulance = AmbulanceLIion(ambulance.getPatient())
+			else:
+				if ambulance is AmbulanceLIion:
+					ambulance = AmbulanceNINH(ambulance.getPatient())
 			print("u ded")
-			plusCourtChemin() #pass in the other type of ambulance have a check right before
+			plusCourtChemin(graph, payload) #pass in the other type of ambulance have a check right before
 
 # Find the shortest path with the Dijkstra algo
 # param:
