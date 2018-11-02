@@ -39,7 +39,7 @@ def init():
 	global layout_stdout_output
 	layout_stdout_output = [sg.Output(size=(87,20))]
 	global layout_patient_type
-	layout_patient_type = [[sg.InputCombo(['Transport à faible risque', 'Transport à moyen risque', 'Transport à haut risque'])]]
+	layout_patient_type = [[sg.InputCombo(['Transport a faible risque', 'Transport a moyen risque', 'Transport a haut risque'])]]
 
 
 #UI LOGIC
