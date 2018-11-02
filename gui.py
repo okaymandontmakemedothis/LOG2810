@@ -64,7 +64,7 @@ class Gui:
 				print(f"{GrapheImpression}")
 				self.window.Refresh()
 			if self.output_token == 1:
-				plusCourtChemin(self.g, self.askPatientType())
+				plusCourtChemin(self.g, self.askC3())
 				self.window.Refresh()
 			#Read values therefore this is like a while until it reads something nothing will execute before this is done
 			settings.reply, value = self.window.Read()
@@ -129,7 +129,7 @@ class Gui:
 					ask_box.Close()
 					raise IOError(stripped_reply)
 
-	def askPatientType(self):
+	def askC3(self):
 		layout = 	[
 						[sg.Text(text="Choissisez la severite du patient a risque")],
 						[sg.InputCombo(['Patient à faible risque', 'Patient à moyen risque', 'Patient à haut risque'])],
@@ -144,9 +144,24 @@ class Gui:
 		while(True):
 			event, value = window.Read()
 			if event is not None:
-				self.g.getNode(int(value[1]))
-
 				payload = Payload(typePatient=value[0], start_index=self.g.getNode(int(value[1])), end_index=self.g.getNode(int(value[2])))
+				window.Close()
+				return payload
+
+	def askC4(self):
+		layout = 	[
+						[sg.Text(text="Choissisez le type de voiture")],
+						[sg.InputCombo(['NI-NH', 'LI-ion'])],
+						[sg.Text(text="Choissisez le point de depart")],
+						[sg.InputCombo([i for i in range(1,len(self.g.getNodes())+1)])],
+						[sg.Submit()]
+					]
+		window = sg.Window(self.title).Layout(layout).Finalize()
+
+		while(True):
+			event, value = window.Read()
+			if event is not None:
+				payload = Payload(typePatient=value[0], start_index=self.g.getNode(int(value[1])), end_index=None)
 				window.Close()
 				return payload
 
