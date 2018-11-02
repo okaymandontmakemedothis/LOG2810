@@ -41,65 +41,80 @@ class AmbulanceLIion:
 
 # find the shortest path
 def plusCourtChemin(graph, payload, ambulance=None):
+	printString = ""
 
 	graph.initialize()
 
-	dijkstraAlgo(graph, payload.getStartIndex(), payload.getEndIndex(), True)
+	dijkstraAlgo(graph, payload.getStartIndex(), payload.getEndIndex(), True, printString)
 
-	#initial state 
+	#initial state
 	if ambulance is None:
 		ambulance = AmbulanceNINH(payload.getTypePatient())
 	print("Le sort du patient est: ")
 	if ambulance.calculateConsumption(payload.end_index.getDistance()) < 80:
 		print("Ya assez de jus, t safe")
+		return printString
 	else:
-		print("u ded")
+		print("u ded, but we look for recharge")
 		findBestRecharge(graph, payload, ambulance)
-
-
 
 #param:
 #	graph: graph object needed to retrieve recharge stations dict
-#	 
+#
 def findBestRecharge(graph, payload, ambulance):
-	totalDistance = [0] * (len(graph.getRechargeStations())+1)
+
+	#Variables
+	battery_end_charge = None
+	filtered_recharge_paths = []
+
 	recharge = graph.getRechargeStations()
 	nodes = graph.getNodes()
 	for i in recharge:
 		c = recharge[i]
-		for j in nodes:
-			if c == nodes[j]:
-				#actually half distance right now
-				totalDistance[i] = nodes[j].getDistance()
 
-		#Getting the other half
+		#Get the first half
+		if ambulance.calculateConsumption(c.getDistance()) < 80 :
+			filtered_recharge_paths.append(c)
 
-		#updating graph with cost from c to end, will need to refresh later to og values?
+	#Getting the other half
+	#updating graph with cost from c to end, will need to refresh later to og values?
+	temp_array = []
+	for c in filtered_recharge_paths :
 		graph.initialize()
 		dijkstraAlgo(graph, c, payload.getEndIndex(), True)
-		totalDistance[i]+=payload.getEndIndex().getDistance()
+		if ambulance.calculateConsumption(c.getDistance()) < 80 :
+			temp_array.append(c)
+	filtered_recharge_paths = temp_array
 
-		#calculate if it's good enough
-		print("Le sort du patient est: ")
-		if ambulance.calculateConsumption(totalDistance[i] < 80 ):
-			print("Ya assez de jus, t safe")
+	#calculate if it's good enough
+	print("Le sort du patient est: ")
+	if filtered_recharge_paths != [] :
+		#sort the list!
+		print("Ya assez de jus, t safe")
+		filtered_recharge_paths.sort(key=checkDistance)
+		for i in filtered_recharge_paths:
+			print(filtered_recharge_paths[0])
+	else:
+		if ambulance is AmbulanceNINH:
+			#wish i knew how to cast one type of object to another one
+			ambulance = AmbulanceLIion(ambulance.getPatient())
 		else:
-			if ambulance is AmbulanceNINH:
-				#wish i knew how to cast one type of object to another one
-				ambulance = AmbulanceLIion(ambulance.getPatient())
-			else:
-				if ambulance is AmbulanceLIion:
-					ambulance = AmbulanceNINH(ambulance.getPatient())
-			print("u ded")
-			plusCourtChemin(graph, payload, ambulance) #pass in the other type of ambulance have a check right before
+			if ambulance is AmbulanceLIion:
+				ambulance = AmbulanceNINH(ambulance.getPatient())
+		print("u ded")
+		plusCourtChemin(graph, payload, ambulance) #pass in the other type of ambulance have a check right before
+
+def checkDistance(elem):
+	return elem.getDistance()
 
 # Find the shortest path with the Dijkstra algo
 # param:
 #	graph: graph to be used
 #	start, end: nodes from graph
-def dijkstraAlgo(graph, start, end, isMin):
+def dijkstraAlgo(graph, start, end, isMin, printString=""):
 	if start.getId() == end.getId():
-		print("noeuds de départ et d'arrivé sont les mêmes")
+		# print("noeuds de départ et d'arrivé sont les mêmes")
+		printString+="noeuds de départ et d'arrivé sont les mêmes \n"
 		return start
 
 	start.setDistance(0)
@@ -115,7 +130,7 @@ def dijkstraAlgo(graph, start, end, isMin):
 
 		u = minimum_distance(toBeVisited)
 
-		print("Noeud courant: ", u.getId(), " Distance: ", u.getDistance())
+		printString+="Noeud courant: {0} Distance: {1} -> ".format(u.getId(), u.getDistance())
 
 		del toBeVisited[u.getId()]
 
