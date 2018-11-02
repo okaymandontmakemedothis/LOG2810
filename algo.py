@@ -76,7 +76,7 @@ def findBestRecharge(graph, start, end, ambulance, totalDistance):
 			print("Ya assez de jus, t safe")
 		else:
 			print("u ded")
-			findBestRecharge(graph, c, payload.getEndIndex(), )
+			plusCourtChemin() #pass in the other type of ambulance have a check right before
 
 # Find the shortest path with the Dijkstra algo
 # param:
