@@ -32,20 +32,22 @@ def creerGraphe(nomFichier):
 
 #myGraph = creerGraphe(sys.argv[1])
 myGraph = creerGraphe("centresLocaux.txt")
-print(separateur)
-myGraph.printGraph()
-print(separateur)
+# print(separateur)
+# myGraph.printGraph()
+# print(separateur)
 
 # print shortest path distance from start to end
 isSmallestPath = True	# change to false to have longest path
-start_index = 27
-end_index = 22
+start_index = 1
+end_index = 25
 start = myGraph.getNode(start_index)
 end = myGraph.getNode(end_index)
 
-typePatient = 2 # faible: 1, moyen: 2, haut: 3
+typePatient = 3 # faible: 1, moyen: 2, haut: 3
 print(separateur)
 plusCourtChemin(myGraph, start, end, typePatient)
+print(separateur)
+extraireSousGraphe(myGraph, start)
 print(separateur)
 # print(dijkstraAlgo(myGraph, start, end, isSmallestPath).getDistance())
 
@@ -53,6 +55,4 @@ print(separateur)
 # 	print("Point de recharge: ", x, " Distance du debut: ", myGraph.getRechargeStations()[x].getDistance())
 #print(dijkstraAlgo(myGraph, start, end, isSmallestPath).getDistance())
 GrapheImpression = lireGraphe(myGraph.getNodes())
-print(separateur)
-print(f"{GrapheImpression}")
 print(separateur)

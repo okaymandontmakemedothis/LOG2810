@@ -31,6 +31,36 @@ class AmbulanceLIion:
 
 		return consomption
 
+class Path:
+	def __init__(self, start, end):
+		self.start = start
+		self.end = end
+		self.orderedPath = []
+		self.orderPath()
+
+	def getStart(self):
+		return self.start
+
+	def getEnd(self):
+		return self.end
+
+	def getOrderedPath(self):
+		return self.orderedPath
+
+	def orderPath(self):
+		currentNode = self.getEnd()
+		while currentNode:
+			self.orderedPath.append(currentNode)
+			currentNode = currentNode.getPrevious()
+
+		self.orderedPath.reverse()
+
+	def printPath(self):
+		print("Chemin: ")
+		for x in self.orderedPath:
+			print("\tNoeud: ", x.getId())
+		print("\tTemps requis: ", self.end.getDistance())
+
 
 
 # find the shortest path
@@ -40,15 +70,72 @@ def plusCourtChemin(graph, start, end, typePatient):
 
 	dijkstraAlgo(graph, start, end, True)
 
+	p = Path(start, end) # path from start to finish found with dijkstraAlgo
 	ambulanceNINH = AmbulanceNINH(typePatient)
+	ambulanceLIion = AmbulanceLIion(typePatient)
+	print("PLUS COURT CHEMIN")
 	print("Le sort du patient est: ")
 	if ambulanceNINH.calculateConsumption(end.getDistance()) < 80:
-		print("Ya assez de jus, t safe")
+		print("Ambulance: NI-NH")
+		print("Niveau de batterie final: ", 100 - ambulanceNINH.calculateConsumption(end.getDistance()),"%\n")
+		p.printPath()
 	else:
-		print("u ded")
+		# verifier avec rechargeStations
+		path = findShortestPathWithRecharge(ambulanceNINH)
+		if path is not None:
+			pass
+		elif ambulanceLIion.calculateConsumption(end.getDistance()) < 80:
+			print("Ambulance: LI-ion")
+			print("Niveau de batterie final: ", 100 - ambulanceLIion.calculateConsumption(end.getDistance()), "%\n")
+			p.printPath()
+		else:
+			path = findShortestPathWithRecharge(ambulanceLIion)
+			if path is not None:
+				pass
+			else:
+				print("u ded")
 
-	print(separateur)
+def extraireSousGraphe(graph, start):
+	print("EXTRAIRE SOUS-GRAPHE")
 
+	graph.initialize()
+
+
+	# il faut donner un parametre end a dijkstraAlgo donc on prend le 1er voisin
+	voisin = None
+	if start.getEdges()[0].getNode1().getId() == start.getId():
+		voisin = start.getEdges()[0].getNode2()
+	else:
+		voisin = start.getEdges()[0].getNode1()
+
+	dijkstraAlgo(graph, start, voisin, True)
+
+	ambulanceNINH = AmbulanceNINH(1)	# 1 patient a risque faible
+	ambulanceLIion = AmbulanceLIion(1)
+	lePlusLoin = None
+	for x in graph.getNodes():
+		if (lePlusLoin == None) or (graph.getNodes()[x].getDistance() > lePlusLoin.getDistance()):
+			# TODO: ajouter calculs de consommation de batterie
+			c = ambulanceLIion.calculateConsumption(graph.getNodes()[x].getDistance())
+
+			if c < 80:
+				if lePlusLoin == None:
+					lePlusLoin = graph.getNodes()[x]
+				elif lePlusLoin.getDistance() < graph.getNodes()[x].getDistance():
+					lePlusLoin = graph.getNodes()[x]
+
+	if lePlusLoin != None:
+		cheminLePlusLong = Path(start, lePlusLoin)
+		cheminLePlusLong.printPath()
+	else:
+		print("Il est impossible de se deplacer à un autre noeud!!!")
+
+
+
+
+def findShortestPathWithRecharge(ambulance):
+
+	return None
 
 
 
@@ -57,8 +144,8 @@ def plusCourtChemin(graph, start, end, typePatient):
 #	graph: graph to be used
 #	start, end: nodes from graph
 def dijkstraAlgo(graph, start, end, isMin):
-	print(separateur)
-	if start.getId() == end.getId():
+
+	if (start.getId() == end.getId()) and isMin:
 		print("noeuds de départ et d'arrivé sont les mêmes")
 		return start
 
@@ -68,14 +155,13 @@ def dijkstraAlgo(graph, start, end, isMin):
 
 	# add all nodes from graph to the list of nodes to be visited
 	for x in graph.getNodes():
-		graph.getNode(x).setPrevious(graph.getNode(x))
 		toBeVisited[x] = graph.getNode(x)
 
 	while len(toBeVisited) > 0:
 
 		u = minimum_distance(toBeVisited)
 
-		print("Noeud courant: ", u.getId(), " Distance: ", u.getDistance())
+		# print("Noeud courant: ", u.getId(), " Distance: ", u.getDistance())
 
 		del toBeVisited[u.getId()]
 
@@ -124,8 +210,11 @@ def setNeighboursDistance(node, isMin):
 				v.setPrevious(node)
 
 def lireGraphe(Nodes):
-	GrapheString = "("
+	print("LIRE GRAPHE")
+
+	GrapheString = ""
 	for node in Nodes:
+		GrapheString += "("
 		GrapheString += "Noeud"+ str(node) #objet1
 		GrapheString += ","
 		GrapheString += str(Nodes[node].getId()) #numero1
@@ -141,5 +230,6 @@ def lireGraphe(Nodes):
 			GrapheString += "(ObjetVoisin" + str(v.getId()) + ", " #str(Nodes[node].getEdges[neighbour])
 			GrapheString += str(edge.getCost())
 			GrapheString += "), "
+		GrapheString = GrapheString[:-2] + "))"
 		GrapheString += "\n\n"
-	return GrapheString
+	print(GrapheString)
