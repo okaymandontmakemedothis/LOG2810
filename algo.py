@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from graphe import *
 
 separateur = "============================================================="
@@ -79,12 +78,7 @@ class Path:
 
 
 # find the shortest path
-def plusCourtChemin(graph, payload):
-
-	start = graph.getNode(payload.getStartIndex())
-	end = graph.getNode(payload.getEndIndex())
-	typePatient = payload.getTypePatient()
-
+def plusCourtChemin(graph, start, end, typePatient):
 
 	graph.initialize()
 
@@ -92,9 +86,7 @@ def plusCourtChemin(graph, payload):
 
 	p = Path(start, end) # path from start to finish found with dijkstraAlgo
 	ambulanceNINH = AmbulanceNINH(typePatient)
-	print(type(ambulanceNINH))
 	ambulanceLIion = AmbulanceLIion(typePatient)
-	print(typePatient)
 	print("PLUS COURT CHEMIN")
 	print("Le sort du patient est: ")
 	if ambulanceNINH.calculateConsumption(end.getDistance()) < 80:
@@ -121,10 +113,8 @@ def plusCourtChemin(graph, payload):
 			else:
 				print("Nous sommes dans l'impossibilité de fournir des services au patient, car le transport n'a pas la batterie nécessaire.")
 
-def extraireSousGraphe(graph, payload):
+def extraireSousGraphe(graph, start):
 	print("EXTRAIRE SOUS-GRAPHE")
-
-	start = graph.getNode(payload.getStartIndex())
 
 	graph.initialize()
 
@@ -138,18 +128,12 @@ def extraireSousGraphe(graph, payload):
 
 	dijkstraAlgo(graph, start, voisin, True)
 
-	ambulance = None
-	if payload.getTypeVoiture() == "NI-NH":
-		ambulance = AmbulanceNINH("Patient a faible risque")	# 1 patient a risque faible
-	else:
-		ambulance = AmbulanceLIion("Patient a faible risque")
-
-	print(type(ambulance))
-
+	ambulanceNINH = AmbulanceNINH(1)	# 1 patient a risque faible
+	ambulanceLIion = AmbulanceLIion(1)
 	lePlusLoin = None
 	for x in graph.getNodes():
 		if (lePlusLoin == None) or (graph.getNodes()[x].getDistance() > lePlusLoin.getDistance()):
-			c = ambulance.calculateConsumption(graph.getNodes()[x].getDistance())
+			c = ambulanceLIion.calculateConsumption(graph.getNodes()[x].getDistance())
 
 			if c < 80:
 				if lePlusLoin == None:
@@ -293,3 +277,4 @@ def lireGraphe(Nodes):
 		GrapheString = GrapheString[:-2] + "))"
 		GrapheString += "\n\n"
 	print(GrapheString)
+

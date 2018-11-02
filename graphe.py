@@ -130,31 +130,3 @@ class Graphe(object):
 		for x in self.nodes:
 			print("Noeud: ", x)
 			self.nodes[x].printEdges()
-
-class Payload:
-	def __init__(self, start_index, end_index, typePatient=None, typeVoiture=None):
-		self.start_index = start_index
-		self.end_index = end_index
-		self.typePatient = typePatient
-		self.typeVoiture = typeVoiture
-
-	def setStartIndex(self, start_index):
-		self.start_index = start_index
-
-	def setEndIndex(self, end_index):
-		self.end_index = end_index
-
-	def setTypePatient(self, typePatient):
-		self.typePatient = typePatient
-
-	def getStartIndex(self):
-		return self.start_index
-
-	def getEndIndex(self):
-		return self.end_index
-
-	def getTypePatient(self):
-		return self.typePatient
-
-	def getTypeVoiture(self):
-		return self.typeVoiture
