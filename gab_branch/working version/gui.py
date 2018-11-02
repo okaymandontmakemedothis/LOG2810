@@ -154,7 +154,7 @@ class Gui:
 		while(True):
 			event, value = window.Read()
 			if event is not None:
-				payload = Payload(typePatient=value[0], start_index=int(value[1]), end_index=None)
+				payload = Payload(typeVoiture=value[0], start_index=int(value[1]), end_index=None)
 				window.Close()
 				return payload
 

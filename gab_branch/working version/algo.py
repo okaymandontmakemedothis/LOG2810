@@ -151,6 +151,7 @@ def extraireSousGraphe(graph, payload):
 	dijkstraAlgo(graph, start, voisin, True)
 
 	ambulance = None
+	print(payload.getTypeVoiture())
 	if payload.getTypeVoiture() == "NI-NH":
 		ambulance = AmbulanceNINH("Patient a faible risque")	# 1 patient a risque faible
 	else:
