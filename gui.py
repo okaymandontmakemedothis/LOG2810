@@ -31,7 +31,7 @@ class Gui:
 
 	def setOutputToken(self, output_token):
 		self.output_token = output_token
-		
+
 	def setLayoutMenuDefault(self):
 		self.layout = settings.default_layout_menu
 
@@ -39,9 +39,9 @@ class Gui:
 		self.layout = 	[
 							[sg.Text(self.menu_message, size=(40,1))],
 							output_block if output_block is not None else [sg.Text(text="")],
-							[sg.Button(button_text=settings.choices[0], auto_size_button=True, pad=(1,1)), 
-							sg.Button(button_text=settings.choices[1], auto_size_button=True, pad=(1,1)), 
-							sg.Button(button_text=settings.choices[2], auto_size_button=True, pad=(1,1)), 
+							[sg.Button(button_text=settings.choices[0], auto_size_button=True, pad=(1,1)),
+							sg.Button(button_text=settings.choices[1], auto_size_button=True, pad=(1,1)),
+							sg.Button(button_text=settings.choices[2], auto_size_button=True, pad=(1,1)),
 							sg.Button(button_text=settings.choices[3], auto_size_button=True, pad=(1,1))]
 
 						]
@@ -61,15 +61,14 @@ class Gui:
 			#Due to the shitty Nature of this GUI I need to print the STDOUTs immediately after creating this menu.
 			if self.output_token == 0:
 				GrapheImpression = lireGraphe(self.g.getNodes())
-				print(f"{GrapheImpression}")
+				print(GrapheImpression)
 				self.window.Refresh()
 			if self.output_token == 1:
 				plusCourtChemin(self.g, self.askC3())
 				self.window.Refresh()
 			if self.output_token == 2:
-				payload = self.askC4()
-				from pprint import pprint 
-				pprint(payload)
+				extraireSousGraphe(self.g, self.askC4())
+
 			#Read values therefore this is like a while until it reads something nothing will execute before this is done
 			settings.reply, value = self.window.Read()
 
@@ -85,6 +84,7 @@ class Gui:
 
 			#update previous_reply with reply because this is when you dont need the previous reply anymore
 			settings.previous_reply = settings.reply
+			self.window.Close()
 
 	def makeReplyGUI(self, g):
 		# if settings.reply == settings.choices[0] :
@@ -93,7 +93,7 @@ class Gui:
 
 		# 	pass
 		# elif settings.reply == settings.choices[2] :
-			
+
 		# 	pass
 		# elif settings.reply == settings.choices[3] :
 		if settings.reply == settings.choices[3] :
@@ -102,7 +102,7 @@ class Gui:
 				[sg.Text("Bye!",size=(132,1),justification='center', pad=(1,1))],
 				[sg.Image(filename=settings.bye_art_path, size=(800,600),pad=(1,1))],
 				[sg.Exit(size=(132,1))]
-			]	
+			]
 			while(1):
 				self.window = sg.Window(self.title, default_element_size=(30,1)).Layout(layout_bye)
 				event, value = self.window.Read()
@@ -128,14 +128,14 @@ class Gui:
 				elif len(stripped_reply)==1:
 					ask_box.Close()
 					return stripped_reply[0]+".txt"
-				else: 
+				else:
 					ask_box.Close()
 					raise IOError(stripped_reply)
 
 	def askC3(self):
 		layout = 	[
 						[sg.Text(text="Choissisez la severite du patient a risque")],
-						[sg.InputCombo(['Patient à faible risque', 'Patient à moyen risque', 'Patient à haut risque'])],
+						[sg.InputCombo(['Patient a faible risque', 'Patient a moyen risque', 'Patient a haut risque'])],
 						[sg.Text(text="Choissisez le point de depart")],
 						[sg.InputCombo([i for i in range(1,len(self.g.getNodes())+1)])],
 						[sg.Text(text="Choissisez le point d'arrivee")],
@@ -147,7 +147,7 @@ class Gui:
 		while(True):
 			event, value = window.Read()
 			if event is not None:
-				payload = Payload(typePatient=value[0], start_index=self.g.getNode(int(value[1])), end_index=self.g.getNode(int(value[2])))
+				payload = Payload(typePatient=value[0], start_index=int(value[1]), end_index=int(value[2]))
 				window.Close()
 				return payload
 
@@ -164,7 +164,7 @@ class Gui:
 		while(True):
 			event, value = window.Read()
 			if event is not None:
-				payload = Payload(typePatient=value[0], start_index=self.g.getNode(int(value[1])), end_index=None)
+				payload = Payload(typeVoiture=value[0], start_index=int(value[1]), end_index=None)
 				window.Close()
 				return payload
 

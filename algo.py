@@ -1,18 +1,16 @@
 from graphe import *
 
+separateur = "============================================================="
 
 class AmbulanceNINH:
 	def __init__(self, typePatient):
 		self.typePatient = typePatient
 
-	def getPatient(self):
-		return self.typePatient
-
 	def calculateConsumption(self, minutes):
 		consomption = 0
-		if self.typePatient == 1:
+		if self.typePatient == "Patient a faible risque":
 			consomption = (minutes/60) * 6
-		elif self.typePatient == 2:
+		elif self.typePatient == "Patient a moyen risque":
 			consomption = (minutes/60) * 12
 		else:
 			consomption = (minutes/60) * 48
@@ -23,103 +21,190 @@ class AmbulanceLIion:
 	def __init__(self, typePatient):
 		self.typePatient = typePatient
 
-	def getPatient(self):
-		return self.typePatient
-
 	def calculateConsumption(self, minutes):
 		consomption = 0
-		if self.typePatient == 1:
+		if self.typePatient == "Patient a faible risque":
 			consomption = (minutes/60) * 5
-		elif self.typePatient == 2:
+		elif self.typePatient == "Patient a moyen risque":
 			consomption = (minutes/60) * 10
 		else:
 			consomption = (minutes/60) * 30
 
 		return consomption
 
+class Path:
+	def __init__(self, start, end):
+		self.start = start
+		self.end = end
+		self.orderedPath = []
+		self.orderPath()
+		self.tempsTotal = end.getDistance()
+
+
+	def getStart(self):
+		return self.start
+
+	def getEnd(self):
+		return self.end
+
+	def getOrderedPath(self):
+		return self.orderedPath
+
+	def getTempsTotal(self):
+		return self.tempsTotal
+
+	def setTempsTotal(self, t):
+		self.tempsTotal = t
+
+	def orderPath(self):
+		currentNode = self.getEnd()
+		while currentNode:
+			self.orderedPath.append(currentNode)
+			currentNode = currentNode.getPrevious()
+
+		self.orderedPath.reverse()
+
+	def combinePaths(self, p2):
+		p2.getOrderedPath().pop(0)
+		for x in p2.getOrderedPath():
+			self.orderedPath.append(x)
+
+	def printPath(self):
+		print("Chemin: ")
+		for x in self.orderedPath:
+			print("\tNoeud: ", x.getId())
+		print("\tTemps requis: ", self.tempsTotal)
+
 
 
 # find the shortest path
-def plusCourtChemin(graph, payload, ambulance=None):
-	printString = ""
+def plusCourtChemin(graph, payload):
+
+	start = graph.getNode(payload.getStartIndex())
+	end = graph.getNode(payload.getEndIndex())
+	typePatient = payload.getTypePatient()
+
 
 	graph.initialize()
 
-	dijkstraAlgo(graph, payload.getStartIndex(), payload.getEndIndex(), True, printString)
+	dijkstraAlgo(graph, start, end, True)
 
-	#initial state
-	if ambulance is None:
-		ambulance = AmbulanceNINH(payload.getTypePatient())
+	p = Path(start, end) # path from start to finish found with dijkstraAlgo
+	ambulanceNINH = AmbulanceNINH(typePatient)
+	print(type(ambulanceNINH))
+	ambulanceLIion = AmbulanceLIion(typePatient)
+	print(typePatient)
+	print("PLUS COURT CHEMIN")
 	print("Le sort du patient est: ")
-	if ambulance.calculateConsumption(payload.end_index.getDistance()) < 80:
-		print("Ya assez de jus, t safe")
-		return printString
+	if ambulanceNINH.calculateConsumption(end.getDistance()) < 80:
+		print("Ambulance: NI-NH")
+		print("Niveau de batterie final: ", 100 - ambulanceNINH.calculateConsumption(end.getDistance()),"%\n")
+		p.printPath()
 	else:
-<<<<<<< HEAD
-		print("u ded")
-		# findBestRecharge(graph, payload, ambulance)
-=======
-		print("u ded, but we look for recharge")
-		findBestRecharge(graph, payload, ambulance)
->>>>>>> c596a410bf28f3056e0458991ba10f2b687dfa7a
-
-#param:
-#	graph: graph object needed to retrieve recharge stations dict
-#
-def findBestRecharge(graph, payload, ambulance):
-
-	#Variables
-	battery_end_charge = None
-	filtered_recharge_paths = []
-
-	recharge = graph.getRechargeStations()
-	nodes = graph.getNodes()
-	for i in recharge:
-		c = recharge[i]
-
-		#Get the first half
-		if ambulance.calculateConsumption(c.getDistance()) < 80 :
-			filtered_recharge_paths.append(c)
-
-	#Getting the other half
-	#updating graph with cost from c to end, will need to refresh later to og values?
-	temp_array = []
-	for c in filtered_recharge_paths :
-		graph.initialize()
-		dijkstraAlgo(graph, c, payload.getEndIndex(), True)
-		if ambulance.calculateConsumption(c.getDistance()) < 80 :
-			temp_array.append(c)
-	filtered_recharge_paths = temp_array
-
-	#calculate if it's good enough
-	print("Le sort du patient est: ")
-	if filtered_recharge_paths != [] :
-		#sort the list!
-		print("Ya assez de jus, t safe")
-		filtered_recharge_paths.sort(key=checkDistance)
-		for i in filtered_recharge_paths:
-			print(filtered_recharge_paths[0])
-	else:
-		if ambulance is AmbulanceNINH:
-			#wish i knew how to cast one type of object to another one
-			ambulance = AmbulanceLIion(ambulance.getPatient())
+		# verifier avec rechargeStations
+		path = findShortestPathWithRecharge(graph, start, end, ambulanceNINH)
+		if path is not None:
+			print("Ambulance: NI-NH")
+			print("Niveau de batterie final: ", 100 - ambulanceNINH.calculateConsumption(end.getDistance()), "%\n")
+			path.printPath()
+		elif ambulanceLIion.calculateConsumption(end.getDistance()) < 80:
+			print("Ambulance: LI-ion")
+			print("Niveau de batterie final: ", 100 - ambulanceLIion.calculateConsumption(end.getDistance()), "%\n")
+			p.printPath()
 		else:
-			if ambulance is AmbulanceLIion:
-				ambulance = AmbulanceNINH(ambulance.getPatient())
-		print("u ded")
-		plusCourtChemin(graph, payload, ambulance) #pass in the other type of ambulance have a check right before
+			path = findShortestPathWithRecharge(graph, start, end, ambulanceLIion)
+			if path is not None:
+				print("Ambulance: LI-ion")
+				print("Niveau de batterie final: ", 100 - ambulanceLIion.calculateConsumption(end.getDistance()), "%\n")
+				path.printPath()
+			else:
+				print("Nous sommes dans l'impossibilité de fournir des services au patient, car le transport n'a pas la batterie nécessaire.")
 
-def checkDistance(elem):
-	return elem.getDistance()
+def extraireSousGraphe(graph, payload):
+	print("EXTRAIRE SOUS-GRAPHE")
+
+	start = graph.getNode(payload.getStartIndex())
+
+	graph.initialize()
+
+
+	# il faut donner un parametre end a dijkstraAlgo donc on prend le 1er voisin
+	voisin = None
+	if start.getEdges()[0].getNode1().getId() == start.getId():
+		voisin = start.getEdges()[0].getNode2()
+	else:
+		voisin = start.getEdges()[0].getNode1()
+
+	dijkstraAlgo(graph, start, voisin, True)
+
+	ambulance = None
+	if payload.getTypeVoiture() == "NI-NH":
+		ambulance = AmbulanceNINH("Patient a faible risque")	# 1 patient a risque faible
+	else:
+		ambulance = AmbulanceLIion("Patient a faible risque")
+
+	print(type(ambulance))
+
+	lePlusLoin = None
+	for x in graph.getNodes():
+		if (lePlusLoin == None) or (graph.getNodes()[x].getDistance() > lePlusLoin.getDistance()):
+			c = ambulance.calculateConsumption(graph.getNodes()[x].getDistance())
+
+			if c < 80:
+				if lePlusLoin == None:
+					lePlusLoin = graph.getNodes()[x]
+				elif lePlusLoin.getDistance() < graph.getNodes()[x].getDistance():
+					lePlusLoin = graph.getNodes()[x]
+
+	if lePlusLoin != None:
+		cheminLePlusLong = Path(start, lePlusLoin)
+		cheminLePlusLong.printPath()
+	else:
+		print("Il est impossible de se deplacer à un autre noeud!!!")
+
+
+
+
+def findShortestPathWithRecharge(graph, start, end, ambulance):
+
+	station = None
+	path1 = None
+	path2 = None
+	time_total = float("inf")
+
+
+	for r in graph.getRechargeStations():
+		graph.initialize()
+		dijkstraAlgo(graph, start, graph.getNode(r), True)
+		if ambulance.calculateConsumption(graph.getNode(r).getDistance()) < 80:
+			time_temp = graph.getNode(r).getDistance()
+			path1 = Path(start, graph.getNode(r))
+			graph.initialize()
+			dijkstraAlgo(graph, graph.getNode(r), end, True)
+			if ambulance.calculateConsumption(end.getDistance()) < 80:
+				time_temp += end.getDistance()
+				if time_temp < time_total:
+					time_total = time_temp
+					path2 = Path(graph.getNode(r), end)
+					station = graph.getNode(r)
+
+	if station == None:
+		return None
+	else:
+		path1.combinePaths(path2)
+		path1.setTempsTotal(time_total + 120)
+		return path1
+
+
 
 # Find the shortest path with the Dijkstra algo
 # param:
 #	graph: graph to be used
 #	start, end: nodes from graph
-def dijkstraAlgo(graph, start, end, isMin, printString=""):
-	if start.getId() == end.getId():
-		# print("noeuds de départ et d'arrivé sont les mêmes")
-		printString+="noeuds de départ et d'arrivé sont les mêmes \n"
+def dijkstraAlgo(graph, start, end, isMin):
+
+	if (start.getId() == end.getId()) and isMin:
+		print("noeuds de départ et d'arrivé sont les mêmes")
 		return start
 
 	start.setDistance(0)
@@ -135,7 +220,7 @@ def dijkstraAlgo(graph, start, end, isMin, printString=""):
 
 		u = minimum_distance(toBeVisited)
 
-		printString+="Noeud courant: {0} Distance: {1} -> ".format(u.getId(), u.getDistance())
+		# print("Noeud courant: ", u.getId(), " Distance: ", u.getDistance())
 
 		del toBeVisited[u.getId()]
 
@@ -144,7 +229,7 @@ def dijkstraAlgo(graph, start, end, isMin, printString=""):
 
 		setNeighboursDistance(u, isMin)
 
-	return end
+	#return end
 
 # Looks for the node with the smallest distance from all the unvisited nodes
 # param:
@@ -184,8 +269,11 @@ def setNeighboursDistance(node, isMin):
 				v.setPrevious(node)
 
 def lireGraphe(Nodes):
-	GrapheString = "("
+	print("LIRE GRAPHE")
+
+	GrapheString = ""
 	for node in Nodes:
+		GrapheString += "("
 		GrapheString += "Noeud"+ str(node) #objet1
 		GrapheString += ","
 		GrapheString += str(Nodes[node].getId()) #numero1
@@ -201,5 +289,6 @@ def lireGraphe(Nodes):
 			GrapheString += "(ObjetVoisin" + str(v.getId()) + ", " #str(Nodes[node].getEdges[neighbour])
 			GrapheString += str(edge.getCost())
 			GrapheString += "), "
+		GrapheString = GrapheString[:-2] + "))"
 		GrapheString += "\n\n"
-	return GrapheString
+	print(GrapheString)
