@@ -49,7 +49,7 @@ class Gui:
 	def makeGUI(self):
 		while all(settings.reply != choice for choice in settings.choices) :
 			#fonction to update message with previous action at the top
-			self.menu_message += settings.reply
+			self.menu_message += settings.previous_reply
 			self.updateLayoutMenu(self.output_block)
 
 			#GUI call
@@ -147,9 +147,6 @@ class Gui:
 				self.g.getNode(int(value[1]))
 
 				payload = Payload(typePatient=value[0], start_index=self.g.getNode(int(value[1])), end_index=self.g.getNode(int(value[2])))
-				# print(payload.getStartIndex())
-				# print(type(value[1]))
-				# print(payload.getEndIndex())
 				window.Close()
 				return payload
 
