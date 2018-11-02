@@ -67,9 +67,7 @@ class Gui:
 				self.window.Refresh()
 			if self.output_token == 2:
 				extraireSousGraphe(self.g, self.askC4())
-				# payload = self.askC4()
-				# from pprint import pprint
-				# pprint(payload)
+
 			#Read values therefore this is like a while until it reads something nothing will execute before this is done
 			settings.reply, value = self.window.Read()
 
@@ -88,15 +86,6 @@ class Gui:
 			self.window.Close()
 
 	def makeReplyGUI(self, g):
-		# if settings.reply == settings.choices[0] :
-		# 	pass
-		# elif settings.reply == settings.choices[1] :
-
-		# 	pass
-		# elif settings.reply == settings.choices[2] :
-
-		# 	pass
-		# elif settings.reply == settings.choices[3] :
 		if settings.reply == settings.choices[3] :
 			#this is the extent of this GUI framework. no resizing stuff. welp. and gotta hardcode to pixels for windows/images boxes and character length for text/buttons boxes
 			layout_bye=	[
@@ -136,7 +125,7 @@ class Gui:
 	def askC3(self):
 		layout = 	[
 						[sg.Text(text="Choissisez la severite du patient a risque")],
-						[sg.InputCombo(['Patient à faible risque', 'Patient à moyen risque', 'Patient à haut risque'])],
+						[sg.InputCombo(['Patient a faible risque', 'Patient a moyen risque', 'Patient a haut risque'])],
 						[sg.Text(text="Choissisez le point de depart")],
 						[sg.InputCombo([i for i in range(1,len(self.g.getNodes())+1)])],
 						[sg.Text(text="Choissisez le point d'arrivee")],

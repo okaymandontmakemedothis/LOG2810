@@ -15,9 +15,9 @@ class AmbulanceNINH:
 
 	def calculateConsumption(self, minutes):
 		consomption = 0
-		if self.typePatient == 1:
+		if self.typePatient == "Patient a faible risque":
 			consomption = (minutes/60) * 6
-		elif self.typePatient == 2:
+		elif self.typePatient == "Patient a moyen risque":
 			consomption = (minutes/60) * 12
 		else:
 			consomption = (minutes/60) * 48
@@ -36,9 +36,9 @@ class AmbulanceLIion:
 
 	def calculateConsumption(self, minutes):
 		consomption = 0
-		if self.typePatient == 1:
+		if self.typePatient == "Patient a faible risque":
 			consomption = (minutes/60) * 5
-		elif self.typePatient == 2:
+		elif self.typePatient == "Patient a moyen risque":
 			consomption = (minutes/60) * 10
 		else:
 			consomption = (minutes/60) * 30
@@ -150,8 +150,14 @@ def extraireSousGraphe(graph, payload):
 
 	dijkstraAlgo(graph, start, voisin, True)
 
-	ambulanceNINH = AmbulanceNINH(1)	# 1 patient a risque faible
-	ambulanceLIion = AmbulanceLIion(1)
+	ambulance = None
+	if payload.getTypeVoiture() == "NI-NH":
+		ambulance = AmbulanceNINH("Patient a faible risque")	# 1 patient a risque faible
+	else:
+		ambulance = AmbulanceLIion("Patient a faible risque")
+		
+	print(type(ambulance))
+
 	lePlusLoin = None
 	for x in graph.getNodes():
 		if (lePlusLoin == None) or (graph.getNodes()[x].getDistance() > lePlusLoin.getDistance()):

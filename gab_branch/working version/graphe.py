@@ -132,10 +132,11 @@ class Graphe(object):
 			self.nodes[x].printEdges()
 
 class Payload:
-	def __init__(self, start_index, end_index, typePatient):
+	def __init__(self, start_index, end_index, typePatient=None, typeVoiture= None):
 		self.start_index = start_index
 		self.end_index = end_index
 		self.typePatient = typePatient
+		self.typeVoiture = typeVoiture
 
 	def setStartIndex(self, start_index):
 		self.start_index = start_index
@@ -154,3 +155,6 @@ class Payload:
 
 	def getTypePatient(self):
 		return self.typePatient
+
+	def getTypeVoiture(self):
+		return self.typeVoiture
