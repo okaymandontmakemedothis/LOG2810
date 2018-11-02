@@ -161,7 +161,7 @@ def extraireSousGraphe(graph, payload):
 	lePlusLoin = None
 	for x in graph.getNodes():
 		if (lePlusLoin == None) or (graph.getNodes()[x].getDistance() > lePlusLoin.getDistance()):
-			c = ambulanceLIion.calculateConsumption(graph.getNodes()[x].getDistance())
+			c = ambulance.calculateConsumption(graph.getNodes()[x].getDistance())
 
 			if c < 80:
 				if lePlusLoin == None:
