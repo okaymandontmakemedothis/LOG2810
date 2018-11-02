@@ -8,3 +8,5 @@ env1/*
 *.*/
 **/*.ipynb
 usersettings.py
+test.py
+check_keystrokes.py

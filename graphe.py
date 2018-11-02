@@ -9,6 +9,9 @@ class Node:
 		self.id = int(id)
 		self.recharge = recharge
 		self.edges = []
+		self.distance = float("inf")
+		self.visited = False
+		self.previous = None
 
 	def getId(self):
 		return self.id
@@ -18,6 +21,24 @@ class Node:
 
 	def getEdges(self):
 		return self.edges
+
+	def getDistance(self):
+		return self.distance
+
+	def setDistance(self, newDistance):
+		self.distance = newDistance
+
+	def getVisited(self):
+		return self.visited
+
+	def setVisited(self, arg):
+		self.visited = arg
+
+	def getPrevious(self):
+		return self.previous
+
+	def setPrevious(self, prev):
+		self.previous = prev
 
 	def addEdge(self, e):
 		isPresent = False
@@ -30,6 +51,7 @@ class Node:
 			self.edges.append(e)
 
 
+	#
 	# Simple print of the number of edges connected
 	def printEdges(self):
 		#for x in self.edges:
@@ -79,6 +101,12 @@ class Graphe(object):
 	def getNodes(self):
 		return self.nodes
 
+	def getNode(self, id):
+		return self.nodes[id]
+
+	def getRechargeStations(self):
+		return self.rechargeStations
+
 	def addNode(self, node):
 		# Verify that the node Id is not already in the dict
 		if not(node.getId() in self.nodes) :
@@ -88,9 +116,41 @@ class Graphe(object):
 		if not(node.getId() in self.rechargeStations) :
 			self.rechargeStations[node.getId()] = node
 
+	def initialize(self):
+		for x in self.nodes:
+			self.nodes[x].setVisited(False)
+			self.nodes[x].setDistance(float("inf"))
+			self.nodes[x].setPrevious(None)
+			if self.nodes[x].getRecharge() == 1:
+				self.rechargeStations[self.nodes[x].getId()] = self.nodes[x]
+
+
 	# Simple print of every nodes id's and their edges cost
 	def printGraph(self):
-		for x in self.rechargeStations:
+		for x in self.nodes:
 			print("Noeud: ", x)
-			#self.nodes[x].printEdges()
-			print(str(x) + "\n")
+			self.nodes[x].printEdges()
+
+class Payload:
+	def __init__(self, start_index, end_index, typePatient):
+		self.start_index = start_index
+		self.end_index = end_index
+		self.typePatient = typePatient
+
+	def setStartIndex(self, start_index):
+		self.start_index = start_index
+
+	def setEndIndex(self, end_index):
+		self.end_index = end_index
+
+	def setTypePatient(self, typePatient):
+		self.typePatient = typePatient
+
+	def getStartIndex(self):
+		return self.start_index
+
+	def getEndIndex(self):
+		return self.end_index
+
+	def getTypePatient(self):
+		return self.getTypePatient

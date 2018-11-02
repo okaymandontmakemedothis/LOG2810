@@ -4,17 +4,6 @@ from gui import *
 from graphe import *
 import usersettings
 import settings
-
-def lireGraphe():
-	try:
-		name = askFileName()
-		return creerGraphe(name);
-	except IOError as e:
-		print(type(e.args[0]))
-		if type(e.args[0]) is list:
-			msgbox("IOError - An unexpected filename was entered: {0}".format(e))
-		else:
-			msgbox("{0}".format(e))
 	
 def creerGraphe(nomFichier):
 	g = Graphe()
@@ -41,20 +30,5 @@ def creerGraphe(nomFichier):
 					edge = Edge(node1, node2, cost) #Edge(node1, node2, cost)
 	return g
 
-def askFileName():
-	reply=enterbox("Enter the name of the file : ")
-	while 1:
-		if reply=="" or reply == None:
-			reply=enterbox("Enter the name of the file : ")
-		else:
-			stripped_reply = reply.replace(" ","").split('.')
-			if len(stripped_reply)==2:
-				if(stripped_reply[1]=='txt'):
-					print(".txt is not needed")
-					return stripped_reply[0]+'.'+stripped_reply[1]
-			elif len(stripped_reply)==1:
-				print(".txt has been added")
-				return stripped_reply[0]+".txt"
-			else: 
-				raise IOError(stripped_reply)
+
 # enterbox
