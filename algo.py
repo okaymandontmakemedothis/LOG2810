@@ -62,7 +62,7 @@ def plusCourtChemin(graph, payload, ambulance=None):
 #	graph: graph object needed to retrieve recharge stations dict
 #	 
 def findBestRecharge(graph, payload, ambulance):
-	totalDistance = [0] * len(graph.getRechargeStations())+1
+	totalDistance = [0] * (len(graph.getRechargeStations())+1)
 	recharge = graph.getRechargeStations()
 	nodes = graph.getNodes()
 	for i in recharge:
@@ -70,17 +70,18 @@ def findBestRecharge(graph, payload, ambulance):
 		for j in nodes:
 			if c == nodes[j]:
 				#actually half distance right now
-				totalDistance[i] = [j].getDistance()
+				totalDistance[i] = nodes[j].getDistance()
 
 		#Getting the other half
 
 		#updating graph with cost from c to end, will need to refresh later to og values?
 		graph.initialize()
 		dijkstraAlgo(graph, c, payload.getEndIndex(), True)
-		totalDistance[i]+=end.getDistance()
+		totalDistance[i]+=payload.getEndIndex().getDistance()
 
 		#calculate if it's good enough
-		if ambulance.calculateConsumption(totalDistance[i] < 80 :
+		print("Le sort du patient est: ")
+		if ambulance.calculateConsumption(totalDistance[i] < 80 ):
 			print("Ya assez de jus, t safe")
 		else:
 			if ambulance is AmbulanceNINH:
