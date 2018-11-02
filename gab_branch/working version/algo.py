@@ -100,7 +100,10 @@ def plusCourtChemin(graph, payload):
 
 	graph.initialize()
 
-	dijkstraAlgo(graph, start, end, True)
+	return_value = dijkstraAlgo(graph, start, end, True)
+	if return_value==start:
+		return
+
 
 	p = Path(start, end) # path from start to finish found with dijkstraAlgo
 	ambulanceNINH = AmbulanceNINH(typePatient)
