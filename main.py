@@ -39,8 +39,7 @@ while 1:
 		elif settings.reply == settings.choices[1]:
 			#Function that asks for choice from gui
 			if g is not None :
-				payload = Payload(start_index, end_index, typePatient)
-				gui.askPatientType(payload)
+				plusCourtChemin(g, gui.askPatientType())
 			else:
 				gui.makeErrorGUI(message="Please first load a map")
 		elif settings.reply == settings.choices[2]:
@@ -54,6 +53,7 @@ while 1:
 		print(type(e.args[0]))
 		if type(e.args[0]) is list:
 			gui.makeErrorGUI(message="IOError - An unexpected filename was entered: {0}".format(e))
+
 			g = None
 		else:
 			gui.makeErrorGUI(message="{0}".format(e))

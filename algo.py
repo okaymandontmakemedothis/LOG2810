@@ -38,11 +38,11 @@ def plusCourtChemin(graph, payload):
 
 	graph.initialize()
 
-	dijkstraAlgo(graph, payload.start, payload.end, True)
+	dijkstraAlgo(graph, payload.getStartIndex(), payload.getEndIndex(), True)
 
-	ambulanceNINH = AmbulanceNINH(payload.typePatient)
+	ambulanceNINH = AmbulanceNINH(payload.getTypePatient())
 	print("Le sort du patient est: ")
-	if ambulanceNINH.calculateConsumption(payload.end.getDistance()) < 80:
+	if ambulanceNINH.calculateConsumption(payload.end_index.getDistance()) < 80:
 		print("Ya assez de jus, t safe")
 	else:
 		print("u ded")

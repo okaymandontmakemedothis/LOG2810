@@ -68,10 +68,6 @@ class Gui:
 
 			#Read values therefore this is like a while until it reads something nothing will execute before this is done
 			settings.reply, value = self.window.Read()
-			print(settings.reply)
-
-
-
 
 			#In case red button quit or cmd-q
 			if settings.reply is None:
@@ -121,23 +117,19 @@ class Gui:
 		while(True):
 			event, value = ask_box.Read()
 			if event is 'Read':
-				print(value[0])
-				print(type(value[0]))
 				stripped_reply = value[0].replace(" ","").split('.')
 				if len(stripped_reply)==2:
 					if(stripped_reply[1]=='txt'):
 						ask_box.Close()
-						print(".txt is not needed")
 						return stripped_reply[0]+'.'+stripped_reply[1]
 				elif len(stripped_reply)==1:
 					ask_box.Close()
-					print(".txt has been added")
 					return stripped_reply[0]+".txt"
 				else: 
 					ask_box.Close()
 					raise IOError(stripped_reply)
 
-	def askPatientType(self, payload):
+	def askPatientType(self):
 		layout = 	[
 						[sg.Text(text="Choissisez la severite du patient a risque")],
 						[sg.InputCombo(['Patient à faible risque', 'Patient à moyen risque', 'Patient à haut risque'])],
@@ -149,9 +141,18 @@ class Gui:
 					]
 		window = sg.Window(self.title).Layout(layout).Finalize()
 		print("yay")
-		a = window.Read()
-		from pprint import pprint
-		pprint(a)
+
+		while(True):
+			event, value = window.Read()
+			if event is not None:
+				self.g.getNode(int(value[1]))
+
+				payload = Payload(typePatient=value[0], start_index=self.g.getNode(int(value[1])), end_index=self.g.getNode(int(value[2])))
+				# print(payload.getStartIndex())
+				# print(type(value[1]))
+				# print(payload.getEndIndex())
+				window.Close()
+				return payload
 
 	def makeErrorGUI(self, title="Error!", message="An error has occured."):
 		error_window = sg.Window(title).Layout([
