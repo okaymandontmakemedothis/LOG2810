@@ -5,7 +5,6 @@ from PySimpleGUI import PySimpleGUI as sg
 import os
 from algo import *
 
-
 class Gui:
 	def __init__(self, title):
 		self.title = title
@@ -20,6 +19,7 @@ class Gui:
 		self.output_token = None
 		self.g=None
 		self.output_block = None
+		self.payload = None
 
 
 
@@ -59,11 +59,12 @@ class Gui:
 			#Used the output_block once, now delete it
 			self.output_block=None
 			#Due to the shitty Nature of this GUI I need to print the STDOUTs immediately after creating this menu.
-			if self.output_token==0:
+			if self.output_token == 0:
 				GrapheImpression = lireGraphe(self.g.getNodes())
 				print(f"{GrapheImpression}")
 				self.window.Refresh()
-
+			if self.output_token == 1:
+				plusCourtChemin(self.g, self.payload)
 
 			#Read values therefore this is like a while until it reads something nothing will execute before this is done
 			settings.reply, value = self.window.Read()
@@ -133,7 +134,24 @@ class Gui:
 					print(".txt has been added")
 					return stripped_reply[0]+".txt"
 				else: 
+					ask_box.Close()
 					raise IOError(stripped_reply)
+
+	def askPatientType(self, payload):
+		layout = 	[
+						[sg.Text(text="Choissisez la severite du patient a risque")],
+						[sg.InputCombo(['Patient à faible risque', 'Patient à moyen risque', 'Patient à haut risque'])],
+						[sg.Text(text="Choissisez le point de depart")],
+						[sg.InputCombo([i for i in range(1,len(self.g.getNodes())+1)])],
+						[sg.Text(text="Choissisez le point d'arrivee")],
+						[sg.InputCombo([i for i in range(1,len(self.g.getNodes())+1)])],
+						[sg.Submit()]
+					]
+		window = sg.Window(self.title).Layout(layout).Finalize()
+		print("yay")
+		a = window.Read()
+		from pprint import pprint
+		pprint(a)
 
 	def makeErrorGUI(self, title="Error!", message="An error has occured."):
 		error_window = sg.Window(title).Layout([
@@ -143,4 +161,5 @@ class Gui:
 		while(True):
 			event, value = error_window.Read()
 			if event == "OK" or event is None :
+				error_window.Close()
 				break

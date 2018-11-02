@@ -37,7 +37,9 @@ def init():
 								sg.Button(button_text=choices[3], auto_size_button=True, pad=(1,1))]
 							]
 	global layout_stdout_output
-	layout_stdout_output = layout = [sg.Output(size=(87,20))]
+	layout_stdout_output = [sg.Output(size=(87,20))]
+	global layout_patient_type
+	layout_patient_type = [[sg.InputCombo(['Transport à faible risque', 'Transport à moyen risque', 'Transport à haut risque'])]]
 
 
 #UI LOGIC

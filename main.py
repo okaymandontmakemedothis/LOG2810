@@ -2,6 +2,7 @@ import settings
 import usersettings
 from creerGraphe import *
 from gui import *
+# from graphe import *
 
 
 #Users must update this part of the code with their own system settings
@@ -14,6 +15,11 @@ settings.init()
 #Get some variables out here
 g = None
 gui=Gui(settings.program_name)
+
+#Scenario X
+start_index = 27
+end_index = 22
+typePatient = 2
 
 #Display the menu for the first time
 
@@ -31,7 +37,12 @@ while 1:
 				gui.setOutputToken(settings.output_token_values[0])
 				gui.setOutputBlock(settings.layout_stdout_output)
 		elif settings.reply == settings.choices[1]:
-			pass
+			#Function that asks for choice from gui
+			if g is not None :
+				payload = Payload(start_index, end_index, typePatient)
+				gui.askPatientType(payload)
+			else:
+				gui.makeErrorGUI(message="Please first load a map")
 		elif settings.reply == settings.choices[2]:
 			pass
 		#Afficher ce qui a ete compute
