@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from graphe import *
 
 separateur = "============================================================="
@@ -6,12 +5,19 @@ separateur = "============================================================="
 class AmbulanceNINH:
 	def __init__(self, typePatient):
 		self.typePatient = typePatient
+		self.energyLevel = 100
+
+	def getEnergyLevel(self):
+		return self.energyLevel
+
+	def setEnergyLevel(self, e):
+		self.energyLevel = e
 
 	def calculateConsumption(self, minutes):
 		consomption = 0
-		if self.typePatient == "Patient a faible risque":
+		if self.typePatient == 1:
 			consomption = (minutes/60) * 6
-		elif self.typePatient == "Patient a moyen risque":
+		elif self.typePatient == 2:
 			consomption = (minutes/60) * 12
 		else:
 			consomption = (minutes/60) * 48
@@ -22,11 +28,17 @@ class AmbulanceLIion:
 	def __init__(self, typePatient):
 		self.typePatient = typePatient
 
+	def getEnergyLevel(self):
+		return self.energyLevel
+
+	def setEnergyLevel(self, e):
+		self.energyLevel = e
+
 	def calculateConsumption(self, minutes):
 		consomption = 0
-		if self.typePatient == "Patient a faible risque":
+		if self.typePatient == 1:
 			consomption = (minutes/60) * 5
-		elif self.typePatient == "Patient a moyen risque":
+		elif self.typePatient == 2:
 			consomption = (minutes/60) * 10
 		else:
 			consomption = (minutes/60) * 30
@@ -92,9 +104,7 @@ def plusCourtChemin(graph, payload):
 
 	p = Path(start, end) # path from start to finish found with dijkstraAlgo
 	ambulanceNINH = AmbulanceNINH(typePatient)
-	print(type(ambulanceNINH))
 	ambulanceLIion = AmbulanceLIion(typePatient)
-	print(typePatient)
 	print("PLUS COURT CHEMIN")
 	print("Le sort du patient est: ")
 	if ambulanceNINH.calculateConsumption(end.getDistance()) < 80:
@@ -105,8 +115,9 @@ def plusCourtChemin(graph, payload):
 		# verifier avec rechargeStations
 		path = findShortestPathWithRecharge(graph, start, end, ambulanceNINH)
 		if path is not None:
+			print("Il a fallu s'arreter pour recharger la batterie.")
 			print("Ambulance: NI-NH")
-			print("Niveau de batterie final: ", 100 - ambulanceNINH.calculateConsumption(end.getDistance()), "%\n")
+			print("Niveau de batterie final: ", ambulanceNINH.getEnergyLevel(), "%\n")
 			path.printPath()
 		elif ambulanceLIion.calculateConsumption(end.getDistance()) < 80:
 			print("Ambulance: LI-ion")
@@ -115,8 +126,9 @@ def plusCourtChemin(graph, payload):
 		else:
 			path = findShortestPathWithRecharge(graph, start, end, ambulanceLIion)
 			if path is not None:
+				print("Il a fallu s'arreter pour recharger la batterie.")
 				print("Ambulance: LI-ion")
-				print("Niveau de batterie final: ", 100 - ambulanceLIion.calculateConsumption(end.getDistance()), "%\n")
+				print("Niveau de batterie final: ", ambulanceLIion.getEnergyLevel(), "%\n")
 				path.printPath()
 			else:
 				print("Nous sommes dans l'impossibilité de fournir des services au patient, car le transport n'a pas la batterie nécessaire.")
@@ -138,18 +150,12 @@ def extraireSousGraphe(graph, payload):
 
 	dijkstraAlgo(graph, start, voisin, True)
 
-	ambulance = None
-	if payload.getTypeVoiture() == "NI-NH":
-		ambulance = AmbulanceNINH("Patient a faible risque")	# 1 patient a risque faible
-	else:
-		ambulance = AmbulanceLIion("Patient a faible risque")
-
-	print(type(ambulance))
-
+	ambulanceNINH = AmbulanceNINH(1)	# 1 patient a risque faible
+	ambulanceLIion = AmbulanceLIion(1)
 	lePlusLoin = None
 	for x in graph.getNodes():
 		if (lePlusLoin == None) or (graph.getNodes()[x].getDistance() > lePlusLoin.getDistance()):
-			c = ambulance.calculateConsumption(graph.getNodes()[x].getDistance())
+			c = ambulanceLIion.calculateConsumption(graph.getNodes()[x].getDistance())
 
 			if c < 80:
 				if lePlusLoin == None:
@@ -188,6 +194,7 @@ def findShortestPathWithRecharge(graph, start, end, ambulance):
 					time_total = time_temp
 					path2 = Path(graph.getNode(r), end)
 					station = graph.getNode(r)
+					ambulance.setEnergyLevel(100 - ambulance.calculateConsumption(end.getDistance()))
 
 	if station == None:
 		return None
