@@ -4,7 +4,8 @@ from gui import *
 from graphe import *
 import usersettings
 import settings
-	
+
+# Permet la création d'un graphe
 def creerGraphe(nomFichier):
 	g = Graphe()
 	# Lecture du fichier ajout des nodes/edges au graphe

@@ -45,6 +45,8 @@ class AmbulanceLIion:
 
 		return consomption
 
+
+# chemin d'un sommet à un autre
 class Path:
 	def __init__(self, start, end):
 		self.start = start
@@ -159,8 +161,6 @@ def extraireSousGraphe(graph, payload):
 		ambulance = AmbulanceNINH("Patient a faible risque")	# 1 patient a risque faible
 	else:
 		ambulance = AmbulanceLIion("Patient a faible risque")
-		
-	print(type(ambulance))
 
 	lePlusLoin = None
 	for x in graph.getNodes():
@@ -181,7 +181,7 @@ def extraireSousGraphe(graph, payload):
 
 
 
-
+# retrouve le chemin le plus court avec un arret pour recharger la batterie
 def findShortestPathWithRecharge(graph, start, end, ambulance):
 
 	station = None
