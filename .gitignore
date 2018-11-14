@@ -9,3 +9,4 @@ env1/*
 **/*.ipynb
 test.py
 check_keystrokes.py
+**/*.whl
