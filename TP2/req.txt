@@ -1,0 +1,6 @@
+enum34==1.1.6
+pynput==1.4
+pyobjc-core==5.1.1
+pyobjc-framework-Cocoa==5.1.1
+pyobjc-framework-Quartz==5.1.1
+six==1.11.0
