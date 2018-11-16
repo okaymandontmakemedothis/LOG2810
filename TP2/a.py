@@ -18,3 +18,7 @@ with keyboard.Listener(
         on_press=on_press,
         on_release=on_release) as listener:
     listener.join()
+
+
+
+# NOTE: il serait interessant d'ajouter le support de backspace
