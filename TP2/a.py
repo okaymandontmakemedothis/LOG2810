@@ -20,31 +20,35 @@ def on_release(key):
     keyCapture = '{0}'.format(key)
 
 # Collect events until released
+async def main():
+    logger = keyboard.Listener(on_release=on_release)
+    logger.start()
+    	
 
-logger = keyboard.Listener(on_release=on_release)
-logger.start()
-	
+    word = ""
+    while True :
+    	#guess to not spam the program
+        sleep(0.1)
+        # print(keyCapture," released")
+        # print(type(keyCapture))
+        # print(keyCapture)
+        # add the keyCapture to our string
+        # import pdb; pdb.set_trace()
+        if "{0}".format(keyCapture) == "Key.backspace":
+            keyCapture = ""
+            word = word[:-1]
+        word += "{0}".format(keyCapture)
+        #reset the keyCapture before it appends forever for just staying still
+        keyCapture = ""
+        #constantly take off the annoying apostrophes
+        word = word.replace("'","")
+        print(word)
+        if hasChanged(word):
+        	pass
+        	#call the algorithm function here
 
-word = ""
-while True :
-	#guess to not spam the program
-    sleep(0.1)
-    print(keyCapture," released")
-    #add the keyCapture to our string
-    if keyCapture == 'Key.backspaceKey.backspace':
-    	word = 
-    word += "{0}".format(keyCapture)
-    #reset the keyCapture before it appends forever for just staying still
-    keyCapture = ""
-    #constantly take off the annoying apostrophes
-    word = word.replace("'","")
-    print(word)
-    if hasChanged(word):
-    	pass
-    	#call the algorithm function here
-
-print("Stopping Keylogger")
-logger.stop()
+    print("Stopping Keylogger")
+    logger.stop()
 
 
 # s/o to this https://github.com/cbrafter/CrowdTLL/blob/master/generalCode/keyTest.py
