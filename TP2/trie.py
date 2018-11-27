@@ -35,7 +35,6 @@ def findWord(root, word):
 	# currentNode = root
 	tipNode = travelToCurrentInput(root, word)
 
-
 	stack.append(tipNode)
 	
 	while stack:
@@ -93,25 +92,25 @@ def wordifyNode(leaf):
 
 #MAIN
 
-if __name__ == '__main__':
-	print("booted up main") ##########
+# if __name__ == '__main__':
+# 	print("booted up main") ##########
 
-	root = TrieNode("", None)
-	#DOUBLE INSERT WORDS DO NOT WORK
-	insertWord(root, "damn")
-	# import pdb; pdb.set_trace()
-	insertWord(root, "damn")
-	insertWord(root, "damnish")
-	insertWord(root, "damniadhaskshad")
-	insertWord(root, "damnit")
-	insertWord(root, "damnithhfjkhek")
+# 	root = TrieNode("", None)
+# 	#DOUBLE INSERT WORDS DO NOT WORK
+# 	# insertWord(root, "damn")
+# 	# # import pdb; pdb.set_trace()
+# 	# insertWord(root, "damn")
+# 	# insertWord(root, "damnish")
+# 	# insertWord(root, "damniadhaskshad")
+# 	# insertWord(root, "damnit")
+# 	# insertWord(root, "damnithhfjkhek")
 
-	l = list();
-	try:
-		l = findWord(root, "d")
-	except Exception as e:
-		#implement how to backspace
-		print(e.args)
-	for w in l:
-		# print("at least got smthing")
-		print(w)
+# 	l = list();
+# 	try:
+# 		l = findWord(root, "d")
+# 	except Exception as e:
+# 		#implement how to backspace
+# 		print(e.args)
+# 	for w in l:
+# 		# print("at least got smthing")
+# 		print(w)
