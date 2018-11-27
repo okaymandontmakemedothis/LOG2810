@@ -1,3 +1,5 @@
+#https://stackoverflow.com/questions/5169702/how-do-i-list-the-current-line-in-python-pdb
+
 global terminal_character
 terminal_character = "$"
 
@@ -22,25 +24,33 @@ def insertWord(root, word):
 					#if character does not exist in previousNode.child
 					previousNode = insertNode(previousNode, character)
 					pass
+			else:
+				return
 	previousNode.child.append(TrieNode(terminal_character, previousNode))
 	root.wordcount+=1
 
 def findWord(root, word):
 	l = list();
+	stack = list();
+	# currentNode = root
+	tipNode = travelToCurrentInput(root, word)
 
-	currentNode = root
-	currentNode = travelToCurrentInput(currentNode, word)
-	for i in range(0, root.wordcount) :
-		while childToString(currentNode.child) != '':
-			str = childToString(currentNode.child)
-			for character in str:
-				if character is not terminal_character:
-					currentNode = currentNode.child[findCharacterIndex(currentNode,character)]
-				elif childToString(currentNode.child) == terminal_character :
-					l.append(wordifyNode(currentNode.child[findCharacterIndex(currentNode, terminal_character)])[::-1])
-					currentNode = currentNode.child[findCharacterIndex(currentNode, character)]
-				else:
-					l.append(wordifyNode(currentNode.child[findCharacterIndex(currentNode, terminal_character)])[::-1])
+
+	stack.append(tipNode)
+	
+	while stack:
+		a = stack.pop()
+		if terminal_character in childToString(a.child):
+			if len(a.child) == 1:
+				l.append(wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1])
+			else:
+				l.append(wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1])
+				for n in reversed(a.child):
+					if n.character != terminal_character:
+						stack.append(n)
+		else:
+			for n in reversed(a.child):
+				stack.append(n)
 	return l
 
 #UTILITY FUNCTIONS
@@ -87,18 +97,21 @@ if __name__ == '__main__':
 	print("booted up main") ##########
 
 	root = TrieNode("", None)
+	#DOUBLE INSERT WORDS DO NOT WORK
 	insertWord(root, "damn")
-	# insertWord(root, "damnish")
-	# insertWord(root, "damniadhaskshad")
+	# import pdb; pdb.set_trace()
+	insertWord(root, "damn")
+	insertWord(root, "damnish")
+	insertWord(root, "damniadhaskshad")
 	insertWord(root, "damnit")
-	# insertWord(root, "damnithhfjkhek")
+	insertWord(root, "damnithhfjkhek")
 
 	l = list();
 	try:
- 		l = findWord(root, "dam")
+		l = findWord(root, "d")
 	except Exception as e:
 		#implement how to backspace
 		print(e.args)
 	for w in l:
-		print("at least got smthing")
+		# print("at least got smthing")
 		print(w)
