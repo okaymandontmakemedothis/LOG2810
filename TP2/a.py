@@ -19,11 +19,16 @@ def hasChanged(word, previous_word):
 async def wordPrint(word, previous_word, root):
     if hasChanged(word, previous_word):
         #call the algorithm function here
-        wordlist = findWord(root, word)
-        print()
-        print(word, " : ")
-        for w in wordlist:
-            print(w)
+        try:
+            wordlist = findWord(root, word)
+            print()
+            print("Mot courant : " ,word)
+            for w in wordlist:
+                print(w)
+        except Exception as e:
+            print()
+            print("Mot courant : " ,word)
+            print("Erreur : Le mot n'existe pas")
 
 
 def on_press(key):
