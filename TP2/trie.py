@@ -1,4 +1,5 @@
 #https://stackoverflow.com/questions/5169702/how-do-i-list-the-current-line-in-python-pdb
+# import asyncio
 
 global terminal_character
 terminal_character = "$"
@@ -87,7 +88,11 @@ def wordifyNode(leaf):
 		word+=leaf.character
 	return word
 
-
+def readDictionnary(root, fileName):
+	with open("./lexique1.txt", 'rU', encoding='latin-1') as f:
+		for line in f.readlines():
+			a = line.split()
+			insertWord(root, a[0])
 
 
 #MAIN

@@ -1,11 +1,30 @@
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
 from pynput import keyboard
 from time import sleep
+import asyncio
+from trie import *
+import re
+
 
 global keyCapture
 keyCapture = ""
 
-def hasChanged(word):
-	pass
+def hasChanged(word, previous_word):
+    if previous_word == word:
+        return False
+    else: 
+        return True
+
+async def wordPrint(word, previous_word, root):
+    if hasChanged(word, previous_word):
+        #call the algorithm function here
+        wordlist = findWord(root, word)
+        print()
+        print(word, " : ")
+        for w in wordlist:
+            print(w)
+
 
 def on_press(key):
 	global keyCapture
@@ -21,12 +40,18 @@ def on_release(key):
 
 # Collect events until released
 async def main():
+    pattern = re.compile("\D{1}")
+    global keyCapture
+    keyCapture = ""
+    root = TrieNode("", None)
+    readDictionnary(root, "./lexique1.txt")
     logger = keyboard.Listener(on_release=on_release)
     logger.start()
     	
 
     word = ""
     while True :
+        previous_word = word
     	#guess to not spam the program
         sleep(0.1)
         # print(keyCapture," released")
@@ -34,22 +59,24 @@ async def main():
         # print(keyCapture)
         # add the keyCapture to our string
         # import pdb; pdb.set_trace()
-        if "{0}".format(keyCapture) == "Key.backspace":
+        capture = "{0}".format(keyCapture)
+        if capture == "Key.backspace":
             keyCapture = ""
             word = word[:-1]
+        elif pattern.match(capture):
+            pass
+            # word += "{0}".format(keyCapture)
         word += "{0}".format(keyCapture)
         #reset the keyCapture before it appends forever for just staying still
         keyCapture = ""
         #constantly take off the annoying apostrophes
         word = word.replace("'","")
-        print(word)
-        if hasChanged(word):
-        	pass
-        	#call the algorithm function here
+        await wordPrint(word, previous_word, root)
 
-    print("Stopping Keylogger")
-    logger.stop()
+    # print("Stopping Keylogger")
+    # logger.stop()
 
-
+loop = asyncio.get_event_loop()
+loop.run_until_complete(main())
+loop.close()
 # s/o to this https://github.com/cbrafter/CrowdTLL/blob/master/generalCode/keyTest.py
-# NOTE: il serait interessant d'ajouter le support de backspace
