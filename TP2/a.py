@@ -36,12 +36,11 @@ def on_press(key):
 	try:
 		pass
 	except AttributeError:
-		print('special key {0} pressed'.format(
-            key))
+		print('special key {0} pressed'.format(key))
 
 def on_release(key):
-    global keyCapture
-    keyCapture = '{0}'.format(key)
+    global keyCapture 
+    keyCapture = '{0}'.format(key) 
 
 # Collect events until released
 async def main():
@@ -68,10 +67,14 @@ async def main():
         if capture == "Key.backspace":
             keyCapture = ""
             word = word[:-1]
-        elif pattern.match(capture):
-            pass
+        elif pattern.match(capture) and len(keyCapture)==3:
+            # print("added something!")
+            word += "{0}".format(keyCapture)
+        else:
+            if keyCapture == "Key.space" or "Key.tab" or "Key.enter" or "Key.shift" or "Key.cmd": 
+                keyCapture = ""
+
             # word += "{0}".format(keyCapture)
-        word += "{0}".format(keyCapture)
         #reset the keyCapture before it appends forever for just staying still
         keyCapture = ""
         #constantly take off the annoying apostrophes
