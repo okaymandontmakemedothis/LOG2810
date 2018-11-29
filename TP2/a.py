@@ -34,8 +34,8 @@ async def wordPrint(word, previous_word, root):
             print("Mot courant : " ,word)
             for w in wordlist:
                 a,b = w
-                print(a," (",b,")")
-                # print(a)
+                # print(a," (",b,")")
+                print(a)
         except Exception as e:
             print()
             print("Mot courant : " ,word)
