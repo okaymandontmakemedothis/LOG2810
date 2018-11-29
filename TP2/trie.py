@@ -93,59 +93,46 @@ def wordifyNode(leaf):
 		word+=leaf.character
 	return word
 
-def delete_last_line():
-    "Use this function to delete the last line in the STDOUT"
+# global l
 
-    #cursor up one line
-    sys.stdout.write('\x1b[1A')
-
-    #delete last line
-    sys.stdout.write('\x1b[2K')
-
-def flushResults(lines):
-    for line in range(lines):
-    	delete_last_line()
-
-global l
-
-async def countPrint():
-    global l
-    for w in l:
-        a,b = w
-        if b == 0 :
-            pass
-        else:
-            print()
-            print(a," (",b,")")
+# async def countPrint():
+#     global l
+#     for w in l:
+#         a,b = w
+#         if b == 0 :
+#             pass
+#         else:
+#             print()
+#             print(a," (",b,")")
 
 #MAIN
 
-async def main():
-	global l
-	print("booted up main") ##########
+# async def main():
+# 	global l
+# 	print("booted up main") ##########
 
-	root = TrieNode("", None)
-	#DOUBLE INSERT WORDS DO NOT WORK
-	insertWord(root, "damn")
-	# # import pdb; pdb.set_trace()
-	insertWord(root, "damn")
-	insertWord(root, "damnish")
-	insertWord(root, "damniadhaskshad")
-	insertWord(root, "damnit")
-	insertWord(root, "damnithhfjkhek")
+# 	root = TrieNode("", None)
+# 	#DOUBLE INSERT WORDS DO NOT WORK
+# 	insertWord(root, "damn")
+# 	# # import pdb; pdb.set_trace()
+# 	insertWord(root, "damn")
+# 	insertWord(root, "damnish")
+# 	insertWord(root, "damniadhaskshad")
+# 	insertWord(root, "damnit")
+# 	insertWord(root, "damnithhfjkhek")
 
-	l = list();
-	try:
-		l = findWord(root, "damn")
-		await countPrint()
-	except Exception as e:
-		#implement how to backspace
-		print(e.args)
-	for w in l:
-		# print("at least got smthing")
-		print(w)
+# 	l = list();
+# 	try:
+# 		l = findWord(root, "damn")
+# 		await countPrint()
+# 	except Exception as e:
+# 		#implement how to backspace
+# 		print(e.args)
+# 	for w in l:
+# 		# print("at least got smthing")
+# 		print(w)
 
-if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
-    loop.close()
+# if __name__ == '__main__':
+#     loop = asyncio.get_event_loop()
+#     loop.run_until_complete(main())
+#     loop.close()

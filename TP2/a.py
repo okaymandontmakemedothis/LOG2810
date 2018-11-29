@@ -12,7 +12,7 @@ global wordlist
 wordlist = list()
 
 def readDictionnary(root, fileName):
-    with open("./"+fileName, 'rU', encoding='latin-1') as f:
+    with open(  fileName, 'rU', encoding='latin-1') as f:
         for line in f.readlines():
             a = line.split()
             insertWord(root, a[0])
@@ -109,7 +109,7 @@ async def main():
                     # print("added something!")
                     word += "{0}".format(keyCapture)
                     token = True
-                elif "-" == keyCapture and token:
+                elif "-" in word and token:
                     #Whatever it still searches this in trie... I wish the input was awaitable in some ways but no the listener has to listen to anything and everything
                     #def print count
                     await countPrint()
@@ -123,7 +123,8 @@ async def main():
                 keyCapture = ""
                 #constantly take off the annoying apostrophes
                 word = word.replace("'","")
-                await wordPrint(word, previous_word, root)
+                if token:
+                    await wordPrint(word, previous_word, root)
     else:
         print("Did you mean -h?")
 
