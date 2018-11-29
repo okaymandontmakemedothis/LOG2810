@@ -16,3 +16,4 @@
 > - [ ] Tab completion 
 > - [ ] Add command for word count
 > - [ ] Make it CLI-like
+
