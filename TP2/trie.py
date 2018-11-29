@@ -1,5 +1,5 @@
 #https://stackoverflow.com/questions/5169702/how-do-i-list-the-current-line-in-python-pdb
-# import asyncio
+import asyncio
 import sys
 
 global terminal_character
@@ -60,13 +60,13 @@ def findWord(root, word):
 
 def travelToCurrentInput(currentNode, word):
 	for index, character in enumerate(word, 1):
-		if terminal_character in childToString(currentNode.child):
-			currentNode.wordcount += 1
 		if character in childToString(currentNode.child):
 			currentNode = currentNode.child[findCharacterIndex(currentNode, character)]
 		else:
 			# Return the position of the character and the length of the word
 			raise ValueError(len(word) - index, "take that character away it doesn't exist")
+	if terminal_character in childToString(currentNode.child):
+		currentNode.wordcount += 1
 	return currentNode
 
 def childToString(child):
@@ -106,9 +106,22 @@ def flushResults(lines):
     for line in range(lines):
     	delete_last_line()
 
+global l
+
+async def countPrint():
+    global l
+    for w in l:
+        a,b = w
+        if b == 0 :
+            pass
+        else:
+            print()
+            print(a," (",b,")")
+
 #MAIN
 
-if __name__ == '__main__':
+async def main():
+	global l
 	print("booted up main") ##########
 
 	root = TrieNode("", None)
@@ -123,11 +136,16 @@ if __name__ == '__main__':
 
 	l = list();
 	try:
-		l = findWord(root, "d")
+		l = findWord(root, "damn")
+		await countPrint()
 	except Exception as e:
 		#implement how to backspace
 		print(e.args)
 	for w in l:
 		# print("at least got smthing")
 		print(w)
-	flushResults(len(l))
+
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+    loop.close()

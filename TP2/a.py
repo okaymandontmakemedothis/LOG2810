@@ -9,6 +9,7 @@ import sys
 global keyCapture
 keyCapture = ""
 global wordlist
+wordlist = list()
 
 def readDictionnary(root, fileName):
     with open("./"+fileName, 'rU', encoding='latin-1') as f:
@@ -24,7 +25,6 @@ def hasChanged(word, previous_word):
 
 async def wordPrint(word, previous_word, root):
     if hasChanged(word, previous_word):
-        # print("DAMNIT NOT AGAIN!")
         global wordlist
         try:
             wordlist = findWord(root, word)
@@ -40,9 +40,6 @@ async def wordPrint(word, previous_word, root):
             print("Erreur : Le mot n'existe pas")
     else:
         pass
-        # print("WE GOOD")
-    # if hasChanged(word, previous_word):
-        #call the algorithm function here
 
 async def countPrint():
     global wordlist
@@ -126,22 +123,9 @@ async def main():
                 keyCapture = ""
                 #constantly take off the annoying apostrophes
                 word = word.replace("'","")
-                # flushResults(word_count+1)
-                # print("word1 : ",previous_word, "word2 : ",word)
                 await wordPrint(word, previous_word, root)
-                # await
-
     else:
         print("Did you mean -h?")
-
-    # print("Stopping Keylogger")
-    # logger.stop()
-
-def temp(previous_word, word):
-    a = previous_word if len(previous_word) > len(word) else word
-    for i,l in enumerate(a):
-        print(i,"\t", end="",flush=True)
-
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
