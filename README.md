@@ -27,6 +27,7 @@
 `
 $ pip install -r linux_req.txt
 `
+
 3. go into the TP2 folder and executez main.py (et ce bien sur avec votre compilateur de python 3)
 
 ### TODO
