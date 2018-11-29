@@ -20,8 +20,8 @@
 
 #### Steps to follow
 
-1. (python) -m pip --upgrade pip
-2. pip install -r (req file)
+1. `(python) -m pip --upgrade pip`
+2. `pip install -r (req file)`
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e.g.:
 `
