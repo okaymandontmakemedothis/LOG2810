@@ -10,3 +10,8 @@ env1/*
 test.py
 check_keystrokes.py
 **/*.whl
+TP2/Lib/
+TP2/Scripts/
+TP2/pip-selfcheck.json
+TP2/pyvenv.*
+

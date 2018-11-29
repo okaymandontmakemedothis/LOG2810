@@ -1,5 +1,6 @@
 #https://stackoverflow.com/questions/5169702/how-do-i-list-the-current-line-in-python-pdb
-# import asyncio
+import asyncio
+import sys
 
 global terminal_character
 terminal_character = "$"
@@ -37,14 +38,15 @@ def findWord(root, word):
 	tipNode = travelToCurrentInput(root, word)
 
 	stack.append(tipNode)
-	
+	#TUPLE SHAPE : (word, wordcount)
 	while stack:
 		a = stack.pop()
+
 		if terminal_character in childToString(a.child):
 			if len(a.child) == 1:
-				l.append(wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1])
+				l.append((wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1], a.wordcount))
 			else:
-				l.append(wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1])
+				l.append( ( wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1], a.wordcount ) )
 				for n in reversed(a.child):
 					if n.character != terminal_character:
 						stack.append(n)
@@ -55,6 +57,7 @@ def findWord(root, word):
 
 #UTILITY FUNCTIONS
 
+
 def travelToCurrentInput(currentNode, word):
 	for index, character in enumerate(word, 1):
 		if character in childToString(currentNode.child):
@@ -62,6 +65,8 @@ def travelToCurrentInput(currentNode, word):
 		else:
 			# Return the position of the character and the length of the word
 			raise ValueError(len(word) - index, "take that character away it doesn't exist")
+	if terminal_character in childToString(currentNode.child):
+		currentNode.wordcount += 1
 	return currentNode
 
 def childToString(child):
@@ -88,34 +93,46 @@ def wordifyNode(leaf):
 		word+=leaf.character
 	return word
 
-def readDictionnary(root, fileName):
-	with open("./lexique1.txt", 'rU', encoding='latin-1') as f:
-		for line in f.readlines():
-			a = line.split()
-			insertWord(root, a[0])
+# global l
 
+# async def countPrint():
+#     global l
+#     for w in l:
+#         a,b = w
+#         if b == 0 :
+#             pass
+#         else:
+#             print()
+#             print(a," (",b,")")
 
 #MAIN
 
-# if __name__ == '__main__':
+# async def main():
+# 	global l
 # 	print("booted up main") ##########
 
 # 	root = TrieNode("", None)
 # 	#DOUBLE INSERT WORDS DO NOT WORK
-# 	# insertWord(root, "damn")
+# 	insertWord(root, "damn")
 # 	# # import pdb; pdb.set_trace()
-# 	# insertWord(root, "damn")
-# 	# insertWord(root, "damnish")
-# 	# insertWord(root, "damniadhaskshad")
-# 	# insertWord(root, "damnit")
-# 	# insertWord(root, "damnithhfjkhek")
+# 	insertWord(root, "damn")
+# 	insertWord(root, "damnish")
+# 	insertWord(root, "damniadhaskshad")
+# 	insertWord(root, "damnit")
+# 	insertWord(root, "damnithhfjkhek")
 
 # 	l = list();
 # 	try:
-# 		l = findWord(root, "d")
+# 		l = findWord(root, "damn")
+# 		await countPrint()
 # 	except Exception as e:
 # 		#implement how to backspace
 # 		print(e.args)
 # 	for w in l:
 # 		# print("at least got smthing")
 # 		print(w)
+
+# if __name__ == '__main__':
+#     loop = asyncio.get_event_loop()
+#     loop.run_until_complete(main())
+#     loop.close()
