@@ -10,6 +10,12 @@ global keyCapture
 keyCapture = ""
 global word_count
 
+def readDictionnary(root, fileName):
+    with open("./"+fileName, 'rU', encoding='latin-1') as f:
+        for line in f.readlines():
+            a = line.split()
+            insertWord(root, a[0])
+
 def hasChanged(word, previous_word):
     if previous_word == word:
         return False
@@ -18,7 +24,7 @@ def hasChanged(word, previous_word):
 
 async def wordPrint(word, previous_word, root):
     if hasChanged(word, previous_word):
-        #call the algorithm function here
+        # print("DAMNIT NOT AGAIN!")
         global word_count
         try:
             wordlist = findWord(root, word)
@@ -31,27 +37,11 @@ async def wordPrint(word, previous_word, root):
             print()
             print("Mot courant : " ,word)
             print("Erreur : Le mot n'existe pas")
-
-
-def delete_last_line():
-    "Use this function to delete the last line in the STDOUT"
-
-    #cursor up one line
-    sys.stdout.write('\x1b[1A')
-
-    #delete last line
-    sys.stdout.write('\x1b[2K')
-
-def flushResults(lines):
-    for line in range(lines):
-        delete_last_line()
-
-def on_press(key):
-	global keyCapture
-	try:
-		pass
-	except AttributeError:
-		print('special key {0} pressed'.format(key))
+    else:
+        pass
+        # print("WE GOOD")
+    # if hasChanged(word, previous_word):
+        #call the algorithm function here
 
 def on_release(key):
     global keyCapture 
@@ -84,7 +74,8 @@ async def main():
                 print()
             elif arg == "-l":
                 for lexique in sys.argv[2:]:
-                    # print(lexique)
+                    print(lexique, "a ete bien ajoute.")
+
                     readDictionnary(root, "./"+lexique)
                 allow = True
                 break
@@ -95,7 +86,6 @@ async def main():
             logger = keyboard.Listener(on_release=on_release)
             logger.start()
                 
-
             word = ""
             while True :
                 previous_word = word
@@ -115,14 +105,22 @@ async def main():
                 keyCapture = ""
                 #constantly take off the annoying apostrophes
                 word = word.replace("'","")
-                flushResults(word_count+1)
+                # flushResults(word_count+1)
+                # print("word1 : ",previous_word, "word2 : ",word)
                 await wordPrint(word, previous_word, root)
+                # await
 
     else:
         print("Did you mean -h?")
 
     # print("Stopping Keylogger")
     # logger.stop()
+
+def temp(previous_word, word):
+    a = previous_word if len(previous_word) > len(word) else word
+    for i,l in enumerate(a):
+        print(i,"\t", end="",flush=True)
+
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
