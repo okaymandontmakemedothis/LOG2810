@@ -1,5 +1,6 @@
 #https://stackoverflow.com/questions/5169702/how-do-i-list-the-current-line-in-python-pdb
 # import asyncio
+import sys
 
 global terminal_character
 terminal_character = "$"
@@ -94,28 +95,41 @@ def readDictionnary(root, fileName):
 			a = line.split()
 			insertWord(root, a[0])
 
+def delete_last_line():
+    "Use this function to delete the last line in the STDOUT"
+
+    #cursor up one line
+    sys.stdout.write('\x1b[1A')
+
+    #delete last line
+    sys.stdout.write('\x1b[2K')
+
+def flushResults(lines):
+    for line in range(lines):
+    	delete_last_line()
 
 #MAIN
 
-# if __name__ == '__main__':
-# 	print("booted up main") ##########
+if __name__ == '__main__':
+	print("booted up main") ##########
 
-# 	root = TrieNode("", None)
-# 	#DOUBLE INSERT WORDS DO NOT WORK
-# 	# insertWord(root, "damn")
-# 	# # import pdb; pdb.set_trace()
-# 	# insertWord(root, "damn")
-# 	# insertWord(root, "damnish")
-# 	# insertWord(root, "damniadhaskshad")
-# 	# insertWord(root, "damnit")
-# 	# insertWord(root, "damnithhfjkhek")
+	root = TrieNode("", None)
+	#DOUBLE INSERT WORDS DO NOT WORK
+	insertWord(root, "damn")
+	# # import pdb; pdb.set_trace()
+	insertWord(root, "damn")
+	insertWord(root, "damnish")
+	insertWord(root, "damniadhaskshad")
+	insertWord(root, "damnit")
+	insertWord(root, "damnithhfjkhek")
 
-# 	l = list();
-# 	try:
-# 		l = findWord(root, "d")
-# 	except Exception as e:
-# 		#implement how to backspace
-# 		print(e.args)
-# 	for w in l:
-# 		# print("at least got smthing")
-# 		print(w)
+	l = list();
+	try:
+		l = findWord(root, "d")
+	except Exception as e:
+		#implement how to backspace
+		print(e.args)
+	for w in l:
+		# print("at least got smthing")
+		print(w)
+	flushResults(len(l))
