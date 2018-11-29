@@ -9,7 +9,8 @@ import sys
 global keyCapture
 keyCapture = ""
 global wordlist
-wordlist = list()
+global permanent_wordlist
+permanent_wordlist = list()
 
 def readDictionnary(root, fileName):
     with open(  fileName, 'rU', encoding='latin-1') as f:
@@ -34,6 +35,7 @@ async def wordPrint(word, previous_word, root):
             for w in wordlist:
                 a,b = w
                 print(a," (",b,")")
+                # print(a)
         except Exception as e:
             print()
             print("Mot courant : " ,word)
@@ -42,14 +44,23 @@ async def wordPrint(word, previous_word, root):
         pass
 
 async def countPrint():
+    global permanent_wordlist
     global wordlist
     for w in wordlist:
         a,b = w
         if b == 0 :
             pass
         else:
-            print()
-            print(a," (",b,")")
+            if w in permanent_wordlist:
+                #update the value
+                permanent_wordlist[permanent_wordlist.index(w)][1]=b
+            else:
+                permanent_wordlist.append(w)
+    for w in permanent_wordlist:
+        a,b = w
+        print()
+        print(a," (",b,")")
+            
 
 def on_release(key):
     global keyCapture 
@@ -73,13 +84,16 @@ async def main():
                 print("\tTP2.py")
                 print()
                 print("SYNOPSIS")
-                print("\tpython3 TP2.py [-l] source_lexique ...")
+                print("\tpython3 TP2.py [-l] source_lexique ... [options]")
                 print("\tpython3 TP2.py [-h]")
                 print()
                 print("DESCRIPTION")
                 print("\t1-Cree une Trie a partir d'un fichier lexique voulu.")
                 print("\t2-Permet a l'usager de rechercher un mot voulu")
                 print("\t3-Compte de mots valides tapes et ce, sur commande")
+                print()
+                print("The options are as follows:")
+                print("\t-\tDisplays how many time each word in the dictionnary has been entirely written by the user")
                 print()
             elif arg == "-l":
                 for lexique in sys.argv[2:]:
