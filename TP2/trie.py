@@ -38,14 +38,15 @@ def findWord(root, word):
 	tipNode = travelToCurrentInput(root, word)
 
 	stack.append(tipNode)
-	
+	#TUPLE SHAPE : (word, wordcount)
 	while stack:
 		a = stack.pop()
+
 		if terminal_character in childToString(a.child):
 			if len(a.child) == 1:
-				l.append(wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1])
+				l.append((wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1], a.wordcount))
 			else:
-				l.append(wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1])
+				l.append( ( wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1], a.wordcount ) )
 				for n in reversed(a.child):
 					if n.character != terminal_character:
 						stack.append(n)
@@ -56,8 +57,11 @@ def findWord(root, word):
 
 #UTILITY FUNCTIONS
 
+
 def travelToCurrentInput(currentNode, word):
 	for index, character in enumerate(word, 1):
+		if terminal_character in childToString(currentNode.child):
+			currentNode.wordcount += 1
 		if character in childToString(currentNode.child):
 			currentNode = currentNode.child[findCharacterIndex(currentNode, character)]
 		else:
@@ -88,12 +92,6 @@ def wordifyNode(leaf):
 		leaf = leaf.previous
 		word+=leaf.character
 	return word
-
-def readDictionnary(root, fileName):
-	with open("./lexique1.txt", 'rU', encoding='latin-1') as f:
-		for line in f.readlines():
-			a = line.split()
-			insertWord(root, a[0])
 
 def delete_last_line():
     "Use this function to delete the last line in the STDOUT"

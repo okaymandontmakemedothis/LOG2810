@@ -8,7 +8,7 @@ import sys
 
 global keyCapture
 keyCapture = ""
-global word_count
+global wordlist
 
 def readDictionnary(root, fileName):
     with open("./"+fileName, 'rU', encoding='latin-1') as f:
@@ -25,14 +25,15 @@ def hasChanged(word, previous_word):
 async def wordPrint(word, previous_word, root):
     if hasChanged(word, previous_word):
         # print("DAMNIT NOT AGAIN!")
-        global word_count
+        global wordlist
         try:
             wordlist = findWord(root, word)
             word_count = len(wordlist)
             print()
             print("Mot courant : " ,word)
             for w in wordlist:
-                print(w)
+                a,b = w
+                print(a," (",b,")")
         except Exception as e:
             print()
             print("Mot courant : " ,word)
@@ -43,6 +44,16 @@ async def wordPrint(word, previous_word, root):
     # if hasChanged(word, previous_word):
         #call the algorithm function here
 
+async def countPrint():
+    global wordlist
+    for w in wordlist:
+        a,b = w
+        if b == 0 :
+            pass
+        else:
+            print()
+            print(a," (",b,")")
+
 def on_release(key):
     global keyCapture 
     keyCapture = '{0}'.format(key) 
@@ -50,11 +61,12 @@ def on_release(key):
 # Collect events until released
 async def main():
     allow = False
+    token = True
     pattern = re.compile("\D{1}")
     global keyCapture
     keyCapture = ""
-    global word_count
-    word_count = 0
+    global wordlist
+    wordlist = list()
     root = TrieNode("", None)
     if sys.argv:
         for arg in sys.argv[1:]:
@@ -95,9 +107,18 @@ async def main():
                 if capture == "Key.backspace":
                     keyCapture = ""
                     word = word[:-1]
+                    token = True
                 elif pattern.match(capture) and len(keyCapture)==3:
                     # print("added something!")
                     word += "{0}".format(keyCapture)
+                    token = True
+                elif "-" == keyCapture and token:
+                    #Whatever it still searches this in trie... I wish the input was awaitable in some ways but no the listener has to listen to anything and everything
+                    #def print count
+                    await countPrint()
+                    #erase the -
+                    word = word[:-1]
+                    token = False
                 else:
                     if keyCapture == "Key.space" or "Key.tab" or "Key.enter" or "Key.shift" or "Key.cmd": 
                         keyCapture = ""
