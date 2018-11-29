@@ -60,13 +60,13 @@ def findWord(root, word):
 
 def travelToCurrentInput(currentNode, word):
 	for index, character in enumerate(word, 1):
-		if terminal_character in childToString(currentNode.child):
-			currentNode.wordcount += 1
 		if character in childToString(currentNode.child):
 			currentNode = currentNode.child[findCharacterIndex(currentNode, character)]
 		else:
 			# Return the position of the character and the length of the word
 			raise ValueError(len(word) - index, "take that character away it doesn't exist")
+	if terminal_character in childToString(currentNode.child):
+		currentNode.wordcount += 1
 	return currentNode
 
 def childToString(child):
