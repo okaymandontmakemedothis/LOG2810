@@ -6,10 +6,7 @@ from trie import *
 import re
 import sys
 
-global keyCapture
 keyCapture = ""
-global wordlist
-global permanent_wordlist
 permanent_wordlist = list()
 
 def readDictionnary(root, fileName):
