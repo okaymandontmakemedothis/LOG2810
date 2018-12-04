@@ -52,6 +52,8 @@ async def countPrint():
             if w_old in permanent_wordlist:
                 #update the value
                 permanent_wordlist.remove( w_old )
+            elif w in permanent_wordlist:
+                pass
             else:
                 permanent_wordlist.append(w)
     for w in permanent_wordlist:
