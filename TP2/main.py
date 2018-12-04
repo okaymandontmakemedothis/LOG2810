@@ -10,6 +10,8 @@ global keyCapture
 keyCapture = ""
 global wordlist
 global permanent_wordlist
+texBoxContent = ""
+autocompleteWord = ""
 permanent_wordlist = list()
 
 def readDictionnary(root, fileName):
@@ -25,11 +27,14 @@ def hasChanged(word, previous_word):
         return True
 
 async def wordPrint(word, previous_word, root):
+    global autocompleteWord
     if hasChanged(word, previous_word):
         global wordlist
         try:
             wordlist = findWord(root, word)
             word_count = len(wordlist)
+            if(wordlist.count != 0):
+                autocompleteWord = wordlist[-1]
             print()
             print("Mot courant : " ,word)
             for w in wordlist:
@@ -65,6 +70,15 @@ async def countPrint():
 def on_release(key):
     global keyCapture 
     keyCapture = '{0}'.format(key) 
+    
+async def addWordToText(word, wordEndInput):
+    global textBoxContent
+    textBoxContent = textBoxContent + wordEndInput + word
+
+def printText():
+    global textBoxContent
+    print(f"The current text is {textBoxContent}")
+    
 
 # Collect events until released
 async def main():
@@ -73,6 +87,8 @@ async def main():
     pattern = re.compile("\D{1}")
     global keyCapture
     keyCapture = ""
+    global textBoxContent
+    textBoxContent = ""
     global wordlist
     wordlist = list()
     root = TrieNode("", None)
@@ -130,8 +146,21 @@ async def main():
                     #erase the -
                     word = word[:-1]
                     token = False
+                elif keyCapture == "Key.space":
+                    global texBoxContent
+                    await addWordToText(word, " ")
+                    await countPrint()
+                   # countPrint()
+                    printText()
+                    word = ""
+                    token = False
+                #elif keyCapture == "Key.tab":
+                 #   word = autocompleteWord
+                  #  token = True
+                   # await countPrint()
+                    
                 else:
-                    if keyCapture == "Key.space" or "Key.tab" or "Key.enter" or "Key.shift" or "Key.cmd": 
+                    if keyCapture == "Key.tab" or"Key.enter" or "Key.shift" or "Key.cmd": 
                         keyCapture = ""
                 #reset the keyCapture before it appends forever for just staying still
                 keyCapture = ""
