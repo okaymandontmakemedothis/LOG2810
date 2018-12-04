@@ -5,9 +5,11 @@ import asyncio
 from trie import *
 import re
 import sys
+import pprint
 
 keyCapture = ""
 permanent_wordlist = list()
+history = list()
 
 def readDictionnary(root, fileName):
     with open(  fileName, 'rU', encoding='latin-1') as f:
@@ -40,26 +42,83 @@ async def wordPrint(word, previous_word, root):
     else:
         pass
 
-async def countPrint():
+def updatePermWordlist():
     global permanent_wordlist
     global wordlist
+    global history
     for w in wordlist:
         a,b = w
         if b == 0 :
             pass
         else:
+            if w not in history:
+                history.append(w)
             w_old = (a, b-1) 
             if w_old in permanent_wordlist:
-                #update the value
+            #update the value
                 permanent_wordlist.remove( w_old )
             elif w in permanent_wordlist:
                 pass
             else:
                 permanent_wordlist.append(w)
+    # print(history)
+
+
+async def countPrint():
+    global permanent_wordlist
+    global history
+    temp_history = list() + history
+    for i,w in enumerate(history[::-1]):
+        a,b = w
+        count = 0
+        print("word", w)
+        for w_rem in (temp_history[::-1])[:-i]:
+            print("Print:",w_rem)
+            if a in w_rem:
+                if count == 0:
+                    pass
+                else:
+                    temp_history.remove(w_rem)
+            count+=1
+
+    #oldest to newest 
+    for w in temp_history:
+        print(w)
+    # for index, w in enumerate(temp_history):
+    #     temp = w[0]
+    #     i = index
+    #     if i+1 < len(temp_history):
+    #         while temp in temp_history[i+1] and i+1 < len(temp_history):
+    #             temp_history.remove(temp_history[i+1])
+    #             i+=1
+    # for i in temp_history:
+    #     print(i)
+
     for w in permanent_wordlist:
         a,b = w
+        recent_index = 0
+        for wth in temp_history:
+            if a in wth:
+                recent_index = 1
         print()
-        print(a," (",b,")")
+        print(a, " (", b, ") ", "(", recent_index, ") ")
+        # if len(permanent_wordlist) <= 5:
+        #     print()
+        #     print(a," (",b,")", "(",1,")")
+        # else:
+        #     if index < len(permanent_wordlist)-5:
+        #         print()
+        #         print(a," (",b,")", "(",0,")")
+        #     else:
+        #         print()
+        #         print(a," (",b,")", "(",1,")")
+
+
+
+def scanWordlist():
+    global permanent_wordlist
+
+
             
 
 def on_release(key):
@@ -119,13 +178,16 @@ async def main():
                     keyCapture = ""
                     word = word[:-1]
                     token = True
+                    updatePermWordlist()
                 elif pattern.match(capture) and len(keyCapture)==3:
                     # print("added something!")
                     word += "{0}".format(keyCapture)
                     token = True
+                    updatePermWordlist()
                 elif "-" in word and token:
                     #Whatever it still searches this in trie... I wish the input was awaitable in some ways but no the listener has to listen to anything and everything
                     #def print count
+                    updatePermWordlist()
                     await countPrint()
                     #erase the -
                     word = word[:-1]
