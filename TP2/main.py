@@ -72,7 +72,7 @@ async def countPrint():
         a,b = w
         count = 0
         print("word", w)
-        for w_rem in (temp_history[::-1])[:-i]:
+        for w_rem in (temp_history[::-1])[i:]:
             print("Print:",w_rem)
             if a in w_rem:
                 if count == 0:
