@@ -6,7 +6,7 @@ from trie import *
 import re
 import sys
 
-texBoxContent =""
+#texBoxContent = ""
 keyCapture = ""
 permanent_wordlist = list()
 
@@ -82,7 +82,7 @@ async def main():
     global keyCapture
     keyCapture = ""
     global textBoxContent
-    texBoxContent = ""
+    textBoxContent = ""
     global wordlist
     wordlist = list()
     root = TrieNode("", None)
@@ -141,7 +141,7 @@ async def main():
                     word = word[:-1]
                     token = False
                 elif keyCapture == "Key.space":
-                    global texBoxContent
+                    #global textBoxContent
                     await addWordToText(word, " ")
                     await countPrint()
                    # countPrint()
