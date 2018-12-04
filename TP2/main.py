@@ -18,7 +18,7 @@ def readDictionnary(root, fileName):
 def hasChanged(word, previous_word):
     if previous_word == word:
         return False
-    else: 
+    else:
         return True
 
 async def wordPrint(word, previous_word, root):
@@ -48,7 +48,7 @@ async def countPrint():
         if b == 0 :
             pass
         else:
-            w_old = (a, b-1) 
+            w_old = (a, b-1)
             if w_old in permanent_wordlist:
                 #update the value
                 permanent_wordlist.remove( w_old )
@@ -60,11 +60,11 @@ async def countPrint():
         a,b = w
         print()
         print(a," (",b,")")
-            
+
 
 def on_release(key):
-    global keyCapture 
-    keyCapture = '{0}'.format(key) 
+    global keyCapture
+    keyCapture = '{0}'.format(key)
 
 # Collect events until released
 async def main():
@@ -108,7 +108,7 @@ async def main():
         if allow:
             logger = keyboard.Listener(on_release=on_release)
             logger.start()
-                
+
             word = ""
             while True :
                 previous_word = word
@@ -130,8 +130,16 @@ async def main():
                     #erase the -
                     word = word[:-1]
                     token = False
+                elif keyCapture == "Key.space":
+                    global texBoxContent
+                    await addWordToText(word, " ")
+                    await countPrint()
+                   # countPrint()
+                    printText()
+                    word = ""
+                    token = False
                 else:
-                    if keyCapture == "Key.space" or "Key.tab" or "Key.enter" or "Key.shift" or "Key.cmd": 
+                    if keyCapture == "Key.tab" or "Key.enter" or "Key.shift" or "Key.cmd": 
                         keyCapture = ""
                 #reset the keyCapture before it appends forever for just staying still
                 keyCapture = ""
