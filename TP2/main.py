@@ -6,6 +6,7 @@ from trie import *
 import re
 import sys
 
+texBoxContent =""
 keyCapture = ""
 permanent_wordlist = list()
 
@@ -61,6 +62,13 @@ async def countPrint():
         print()
         print(a," (",b,")")
 
+async def addWordToText(word, wordEndInput):
+    global textBoxContent
+    textBoxContent = textBoxContent + wordEndInput + word
+
+def printText():
+    global textBoxContent
+    print(f"The current text is {textBoxContent}")
 
 def on_release(key):
     global keyCapture
@@ -73,6 +81,8 @@ async def main():
     pattern = re.compile("\D{1}")
     global keyCapture
     keyCapture = ""
+    global textBoxContent
+    texBoxContent = ""
     global wordlist
     wordlist = list()
     root = TrieNode("", None)
@@ -139,7 +149,7 @@ async def main():
                     word = ""
                     token = False
                 else:
-                    if keyCapture == "Key.tab" or "Key.enter" or "Key.shift" or "Key.cmd": 
+                    if keyCapture == "Key.tab" or "Key.enter" or "Key.shift" or "Key.cmd":
                         keyCapture = ""
                 #reset the keyCapture before it appends forever for just staying still
                 keyCapture = ""
