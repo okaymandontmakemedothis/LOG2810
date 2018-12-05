@@ -44,6 +44,7 @@ async def wordPrint(word, previous_word, root):
 async def countPrint():
     global permanent_wordlist
     global wordlist
+    global TrieNode_Queue
     for w in wordlist:
         a,b = w
         if b == 0 :
@@ -59,8 +60,13 @@ async def countPrint():
                 permanent_wordlist.append(w)
     for w in permanent_wordlist:
         a,b = w
-        print()
-        print(a," (",b,")")
+        for n in TrieNode_Queue:
+            if a in n.character and b in n.wordcount:
+                print()
+                print(a," (",b,") (",1,")")
+            else:
+                print()
+                print(a," (",b,") (",0,")")
 
 async def addWordToText(word, wordEndInput):
     global textBoxContent

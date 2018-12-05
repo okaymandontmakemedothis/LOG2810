@@ -5,12 +5,21 @@ import sys
 global terminal_character
 terminal_character = "$"
 
+count = 0
+
+global TrieNode_Queue
+TrieNode_Queue = []
+
 class TrieNode:
+
 	def __init__(self, character, previous): #, next=None
 		self.child = []
 		self.character = character
 		self.previous = previous #should be an integer for index
 		self.wordcount = 0
+
+	# def returnQueue(self):
+	# 	return self.TrieNode_Queue
 
 
 def insertWord(root, word):
@@ -32,10 +41,21 @@ def insertWord(root, word):
 	root.wordcount+=1
 
 def findWord(root, word):
+	global TrieNode_Queue
 	l = list();
 	stack = list();
 	# currentNode = root
 	tipNode = travelToCurrentInput(root, word)
+
+	#So basically the 0-indexed element is the oldest element and the 4-indexed element is the newest one
+	global count
+	if terminal_character in childToString(tipNode):
+		if count == 5:
+			TrieNode_Queue.pop(0)
+			TrieNode_Queue.push(tipNode)
+		elif count < 5:
+			TrieNode_Queue.push(tipNode)
+			count+=1
 
 	stack.append(tipNode)
 	#TUPLE SHAPE : (word, wordcount)
