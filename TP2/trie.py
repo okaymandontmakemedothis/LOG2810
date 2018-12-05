@@ -49,12 +49,12 @@ def findWord(root, word):
 
 	#So basically the 0-indexed element is the oldest element and the 4-indexed element is the newest one
 	global count
-	if terminal_character in childToString(tipNode):
+	if terminal_character in childToString(tipNode.child):
 		if count == 5:
 			TrieNode_Queue.pop(0)
-			TrieNode_Queue.push(tipNode)
+			TrieNode_Queue.append(tipNode)
 		elif count < 5:
-			TrieNode_Queue.push(tipNode)
+			TrieNode_Queue.append(tipNode)
 			count+=1
 
 	stack.append(tipNode)
