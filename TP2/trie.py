@@ -10,6 +10,8 @@ count = 0
 global TrieNode_Queue
 TrieNode_Queue = []
 
+history = []
+
 class TrieNode:
 
 	def __init__(self, character, previous): #, next=None
@@ -64,7 +66,7 @@ def findWord(root, word):
 
 		if terminal_character in childToString(a.child):
 			if len(a.child) == 1:
-				l.append((wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1], a.wordcount))
+				l.append((wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1], a.wordcount ) )
 			else:
 				l.append( ( wordifyNode(a.child[findCharacterIndex(a, terminal_character)])[::-1], a.wordcount ) )
 				for n in reversed(a.child):
@@ -76,7 +78,6 @@ def findWord(root, word):
 	return l
 
 #UTILITY FUNCTIONS
-
 
 def travelToCurrentInput(currentNode, word):
 	for index, character in enumerate(word, 1):

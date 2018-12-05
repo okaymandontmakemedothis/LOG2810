@@ -5,6 +5,7 @@ import asyncio
 from trie import *
 import re
 import sys
+from pprint import pprint
 
 #texBoxContent = ""
 keyCapture = ""
@@ -32,7 +33,6 @@ async def wordPrint(word, previous_word, root):
             print("Mot courant : " ,word)
             for w in wordlist:
                 a,b = w
-                # print(a," (",b,")")
                 print(a)
         except Exception as e:
             print()
@@ -60,13 +60,17 @@ async def countPrint():
                 permanent_wordlist.append(w)
     for w in permanent_wordlist:
         a,b = w
+        boolean = True
         for n in TrieNode_Queue:
-            if a in n.character and b in n.wordcount:
+            c = wordifyNode(n.child[findCharacterIndex(n,terminal_character)])[::-1]
+            if c == a:
+                # print(c, " ", a)
                 print()
                 print(a," (",b,") (",1,")")
-            else:
-                print()
-                print(a," (",b,") (",0,")")
+                boolean = False
+        if boolean:
+            print()
+            print(a," (",b,") (",0,")")
 
 async def addWordToText(word, wordEndInput):
     global textBoxContent
@@ -144,6 +148,8 @@ async def main():
                     #def print count
                     await countPrint()
                     #erase the -
+                    for q in TrieNode_Queue:
+                       pprint(wordifyNode(q.child[findCharacterIndex(q,terminal_character)])[::-1])
                     word = word[:-1]
                     token = False
                 elif keyCapture == "Key.space":
@@ -163,6 +169,8 @@ async def main():
                 word = word.replace("'","")
                 if token:
                     await wordPrint(word, previous_word, root)
+
+
     else:
         print("Did you mean -h?")
 
