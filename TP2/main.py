@@ -148,8 +148,6 @@ async def main():
                     #def print count
                     await countPrint()
                     #erase the -
-                    for q in TrieNode_Queue:
-                       pprint(wordifyNode(q.child[findCharacterIndex(q,terminal_character)])[::-1])
                     word = word[:-1]
                     token = False
                 elif keyCapture == "Key.space":
